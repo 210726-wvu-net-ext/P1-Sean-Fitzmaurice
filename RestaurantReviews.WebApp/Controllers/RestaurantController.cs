@@ -18,7 +18,7 @@ namespace RestaurantReviews.WebApp.Controllers
         }
         public IActionResult Index()
         {
-            return View(_repo);
+            return View(_repo.SearchRestaurantsName(""));
         }
     }
 }

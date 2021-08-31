@@ -77,12 +77,13 @@ namespace RestaurantReviews.DataAccess
             return restaurant;
         }
 
-        public List<Domain.Review> FindRatingsByRestaurantId(Domain.Restaurant restaurant)
+        public List<Domain.Review> FindRatingsByRestaurantId(int Id)
         {
+            
             List<Domain.Review> list = _context.Reviews.Select(
                 Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment)
             ).ToList();
-            List<Domain.Review> query = list.Where(Review => Review.RestaurantId == restaurant.Id).ToList();
+            List<Domain.Review> query = list.Where(Review => Review.RestaurantId == Id).ToList();
             query.Reverse();
             return query;
 
@@ -176,7 +177,7 @@ namespace RestaurantReviews.DataAccess
 
         public void DeleteRestaurant(Domain.Restaurant restaurant)
         {
-            List<Domain.Review> restaurantReviews = FindRatingsByRestaurantId(restaurant);
+            List<Domain.Review> restaurantReviews = FindRatingsByRestaurantId(restaurant.Id);
             foreach (Domain.Review review in restaurantReviews)
             {
                 DeleteReview(review);
@@ -211,6 +212,16 @@ namespace RestaurantReviews.DataAccess
                 return new Domain.Review(foundReview.Id, foundReview.Stars, foundReview.CustomerId, foundReview.RestaurantId, foundReview.Comment);
             }
             return new Domain.Review();
+        }
+        public Domain.Restaurant GetRestaurantById(int Id)
+        {
+            Entities.Restaurant foundRestaurant = _context.Restaurants
+                .FirstOrDefault(restaurant => restaurant.Id == Id);
+            if (foundRestaurant != null)
+            {
+                return new Domain.Restaurant(foundRestaurant.Id, foundRestaurant.Name, foundRestaurant.Address, foundRestaurant.Zip);
+            }
+            return new Domain.Restaurant();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace RestaurantReviews.Domain
 
         Review LeaveReview(Review review);
 
-        List<Review> FindRatingsByRestaurantId(Restaurant restaurant);
+        List<Review> FindRatingsByRestaurantId(int Id);
 
         List<Review> FindReviewsByCustomer(Customer customer);
 
@@ -34,5 +34,7 @@ namespace RestaurantReviews.Domain
         void DeleteRestaurant(Restaurant restaurant);
 
         Review GetReviewById(int Id);
+
+        Restaurant GetRestaurantById(int Id);
     }
 }

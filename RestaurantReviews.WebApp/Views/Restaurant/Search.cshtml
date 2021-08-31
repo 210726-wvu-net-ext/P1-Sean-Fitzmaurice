@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<RestaurantReviews.Domain.Restaurant>
 
-
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Search Restaurants";
 }
 
-<h1>Restaurants</h1>
+<h1>Search Restaurants</h1>
 
 <p>
     <a asp-action="AddRestaurant">Add Restaurant</a>
@@ -16,8 +15,6 @@
         <input type="submit" value="Filter" />
     </p>
 </form>
-
-
 <table class="table">
     <thead>
         <tr>
@@ -37,25 +34,24 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Zip)
-                </td>
-                <td>
-                    @Html.ActionLink("Reviews", "Reviews", new { Id = item.Id })
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+            <td>
+                @Html.ActionLink("Reviews", "Reviews", new { Id = item.Id }) 
+            </td>
+        </tr>
+}
     </tbody>
 </table>

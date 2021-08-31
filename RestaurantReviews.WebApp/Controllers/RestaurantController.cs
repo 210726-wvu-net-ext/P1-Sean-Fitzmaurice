@@ -20,5 +20,28 @@ namespace RestaurantReviews.WebApp.Controllers
         {
             return View(_repo.SearchRestaurantsName(""));
         }
+        public IActionResult Search(string searchString)
+        {
+            List<Restaurant> Restaurants;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Restaurants = _repo.SearchRestaurantsName(searchString);
+            }else
+            {
+                Restaurants = new List<Restaurant>();
+            }
+
+            return View(Restaurants);
+
+        }
+        public IActionResult Reviews(int Id)
+        {
+            List<Review> reviews = _repo.FindRatingsByRestaurantId(Id);
+            Restaurant restaurant = _repo.GetRestaurantById(Id);
+            ViewData["Restaurant"] = restaurant.Name;
+            ViewData["Address"] = $"{restaurant.Address} {restaurant.Zip}";
+            return View(reviews);
+        }
+
     }
 }

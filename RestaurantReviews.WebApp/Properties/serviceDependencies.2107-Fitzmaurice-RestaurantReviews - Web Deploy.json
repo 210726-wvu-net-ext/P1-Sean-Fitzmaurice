@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/p0-sean-fitzmaurice-server/databases/RestaurantReview",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:RestaurantDB",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

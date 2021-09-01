@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace RestaurantReviews.Domain
 {
@@ -33,7 +34,9 @@ namespace RestaurantReviews.Domain
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int RestaurantId { get; set; }
+        [DisplayName("Rating")]
         public decimal Stars { get; set; }
+        [DisplayName("Comment")]
         public string textReview { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace RestaurantReviews.Domain
 {
@@ -30,7 +31,9 @@ namespace RestaurantReviews.Domain
             this.Admin = admin;
         }
         public int Id { get; set; }
+        [DisplayName("Username")]
         public string Name { get; set; }
+        [DisplayName("Password")]
         public string Pass { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

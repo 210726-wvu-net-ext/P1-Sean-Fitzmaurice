@@ -28,7 +28,7 @@ namespace RestaurantReviews.WebApp.Controllers
                 Restaurants = _repo.SearchRestaurantsName(searchString);
             }else
             {
-                Restaurants = new List<Restaurant>();
+                Restaurants = _repo.SearchRestaurantsName("");
             }
 
             return View(Restaurants);

@@ -36,5 +36,6 @@ namespace RestaurantReviews.Domain
         Review GetReviewById(int Id);
 
         Restaurant GetRestaurantById(int Id);
+
     }
 }

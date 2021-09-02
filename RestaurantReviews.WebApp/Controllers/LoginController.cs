@@ -13,6 +13,7 @@ namespace RestaurantReviews.WebApp.Controllers
         public LoginController(IRepository repo)
         {
             _repo = repo;
+
         }
         [HttpGet]
         public IActionResult Login()
@@ -30,7 +31,9 @@ namespace RestaurantReviews.WebApp.Controllers
                 if (customer.Pass == pass)
                 {
                     //login success
-                    return View();
+                    TempData["CurrentUserId"] = customer.Id;
+                    TempData.Keep("CurrentUserId");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -44,5 +47,6 @@ namespace RestaurantReviews.WebApp.Controllers
                 return View();
             }
         }
+
     }
 }

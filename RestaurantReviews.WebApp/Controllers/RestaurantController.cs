@@ -15,6 +15,7 @@ namespace RestaurantReviews.WebApp.Controllers
         public RestaurantController(IRepository repo)
         {
             _repo = repo;
+
         }
         public IActionResult Index()
         {
@@ -41,6 +42,10 @@ namespace RestaurantReviews.WebApp.Controllers
             ViewData["Restaurant"] = restaurant.Name;
             ViewData["Address"] = $"{restaurant.Address} {restaurant.Zip}";
             return View(reviews);
+        }
+        public IActionResult LeaveReview()
+        {
+            return View();
         }
 
     }

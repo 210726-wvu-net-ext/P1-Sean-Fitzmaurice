@@ -8,11 +8,13 @@ namespace RestaurantReviews.DataAccess
 {
     public class Repository : IRepository
     {
+        
         private readonly RestaurantReviewContext _context;
         public Repository(RestaurantReviewContext context)
         {
             _context = context;
         }
+
         public List<Domain.Restaurant> SearchRestaurantsName(string name)
         {
             List<Domain.Restaurant> list = _context.Restaurants.Select(

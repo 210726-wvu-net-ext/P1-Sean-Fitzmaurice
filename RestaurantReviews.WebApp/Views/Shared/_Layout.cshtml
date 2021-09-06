@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Restaurant Reviews</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
@@ -38,8 +39,14 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
                             </li>
-                            //TempData.Keep("CurrentUserId");
+                            TempData.Keep("IsAdmin");
                             TempData.Keep("CurrentUserId");
+                        }
+                        @if (TempData["IsAdmin"] != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Search">Search Users</a>
+                            </li>
                         }
                         <li class="nav-item">
                         <li class="nav-item">

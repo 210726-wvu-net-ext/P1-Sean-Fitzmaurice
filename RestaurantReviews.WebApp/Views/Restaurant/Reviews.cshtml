@@ -11,6 +11,7 @@
 <p>
     <a asp-action="LeaveReview">Leave Review</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -39,11 +40,22 @@
                 @Html.DisplayFor(modelItem => item.textReview)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @if (TempData["CurrentUserId"] != null)
+                {
+                    @if (item.CustomerId == (int)TempData["CurrentUserId"])
+                    {
+                        @Html.ActionLink("Edit ", "Edit", new { /* id=item.PrimaryKey */ })
+                    }
+             
+                    @if (item.CustomerId == (int)TempData["CurrentUserId"] || TempData["IsAdmin"] != null)
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    }
+                }
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+

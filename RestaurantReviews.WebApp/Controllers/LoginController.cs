@@ -31,8 +31,13 @@ namespace RestaurantReviews.WebApp.Controllers
                 if (customer.Pass == pass)
                 {
                     //login success
+                    if(customer.Admin != null)
+                    {
+                        TempData["IsAdmin"] = 1;
+                    }
                     TempData["CurrentUserId"] = customer.Id;
                     TempData.Keep("CurrentUserId");
+                    TempData.Keep("IsAdmin");
                     return RedirectToAction("Index", "Home");
                 }
                 else

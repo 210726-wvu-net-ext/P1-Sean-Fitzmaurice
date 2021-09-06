@@ -159,6 +159,7 @@ namespace RestaurantReviews.DataAccess
                 Email = customer.Email,
                 IsAdmin = customer.Admin
             };
+            _context.Entry(userToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.Customers.Remove(userToDelete);
             _context.SaveChanges();
         }
@@ -173,6 +174,7 @@ namespace RestaurantReviews.DataAccess
                 Comment = review.textReview,
                 Stars = review.Stars
             };
+
             _context.Reviews.Remove(reviewToDelete);
             _context.SaveChanges();
         }
@@ -225,5 +227,6 @@ namespace RestaurantReviews.DataAccess
             }
             return new Domain.Restaurant();
         }
+
     }
 }

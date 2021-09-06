@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviews.WebApp", "RestaurantReviews.WebApp\RestaurantReviews.WebApp.csproj", "{704BD537-9C14-4FCA-9F1E-ABAF1C037D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantReviews.WebApp", "RestaurantReviews.WebApp\RestaurantReviews.WebApp.csproj", "{704BD537-9C14-4FCA-9F1E-ABAF1C037D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviews.DataAccess", "RestaurantReviews.DataAccess\RestaurantReviews.DataAccess.csproj", "{06A0C1FA-9A2B-4E1E-B3B1-72EE24B42782}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantReviews.DataAccess", "RestaurantReviews.DataAccess\RestaurantReviews.DataAccess.csproj", "{06A0C1FA-9A2B-4E1E-B3B1-72EE24B42782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantReviews.Domain", "RestaurantReviews.Domain\RestaurantReviews.Domain.csproj", "{88C03A83-D81B-4B12-9369-28F73FB23E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantReviews.Domain", "RestaurantReviews.Domain\RestaurantReviews.Domain.csproj", "{88C03A83-D81B-4B12-9369-28F73FB23E89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F4887FF-8F45-4CE5-9E36-CC6D6DB96133}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

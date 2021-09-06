@@ -16,8 +16,9 @@ namespace RestaurantReviews.WebApp.Controllers
 
         }
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string message)
         {
+            ViewData["message"] = message;
             return View();
         }
 
@@ -35,22 +36,31 @@ namespace RestaurantReviews.WebApp.Controllers
                     {
                         TempData["IsAdmin"] = 1;
                     }
+                    
                     TempData["CurrentUserId"] = customer.Id;
                     TempData.Keep("CurrentUserId");
                     TempData.Keep("IsAdmin");
+                    if(TempData["returnPath"] != null)
+                    {
+                        return Redirect((string)TempData["returnPath"]);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     //password does not match username
-                    return View();
+                    return Login("Password does not match");
                 }
             }
             else
             {
                 // customer not found
-                return View();
+                return Login("Username does not exist");
             }
+        }
+        public IActionResult Register()
+        {
+            return RedirectToAction("Register", "User");
         }
 
     }

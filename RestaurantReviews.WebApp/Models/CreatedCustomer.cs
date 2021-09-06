@@ -24,8 +24,10 @@ namespace RestaurantReviews.WebApp.Models
         [DisplayName("Confirm Password")]
         public string ConfirmPass { get; set; }
         [Phone]
+        [Required]
         public string Phone { get; set; }
         [EmailAddress]
+        [Required]
         public string Email { get; set; }
         
 

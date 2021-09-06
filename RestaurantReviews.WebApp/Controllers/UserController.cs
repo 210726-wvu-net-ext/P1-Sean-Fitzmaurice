@@ -19,6 +19,8 @@ namespace RestaurantReviews.WebApp.Controllers
         public IActionResult Profile()
         {
             int userId = (int)TempData["CurrentUserId"];
+            TempData["customerId"] = userId;
+            TempData.Keep("customerId");
             TempData.Keep("IsAdmin");
             TempData.Keep("CurrentUserId");
             Customer customer = _repo.GetCustomerById(userId);
@@ -26,6 +28,8 @@ namespace RestaurantReviews.WebApp.Controllers
         }
         public IActionResult Details(Customer customer)
         {
+            TempData["customerId"] = customer.Id;
+            TempData.Keep("customerId");
             return View(customer);
         }
         [HttpGet]
@@ -124,6 +128,13 @@ namespace RestaurantReviews.WebApp.Controllers
                 return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
             }
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult ShowReviews(int id)
+        {
+            Customer customer = _repo.GetCustomerById(id);
+            List<Review> list = _repo.FindReviewsByCustomer(customer);
+            TempData.Keep("customerId");
+            return View(list);
         }
     }
 }

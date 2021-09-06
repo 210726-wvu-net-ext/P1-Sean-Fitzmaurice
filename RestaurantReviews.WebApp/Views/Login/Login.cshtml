@@ -22,6 +22,11 @@
                 <input asp-for="Pass" class="form-control" />
                 <span asp-validation-for="Pass" class="text-danger"></span>
             </div>
+            @if (ViewData["message"] != null)
+            { 
+                <p><span class="text-danger">@ViewData["message"]</span></p>
+            }
+
             <div class="form-group">
                 <input type="Submit" value="Submit" class="btn btn-primary" />
             </div>

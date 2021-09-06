@@ -143,56 +143,35 @@ namespace RestaurantReviews.DataAccess
             return review;
         }
 
-        public void DeleteUser(Domain.Customer customer)
+        public void DeleteUser(Domain.Customer custDel)
         {
-            List<Domain.Review> usersReviews = FindReviewsByCustomer(customer);
+            List<Domain.Review> usersReviews = FindReviewsByCustomer(custDel);
             foreach (Domain.Review review in usersReviews)
             {
                 DeleteReview(review);
             }
-            Entities.Customer userToDelete = new Entities.Customer
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Pass = customer.Pass,
-                Phone = customer.Phone,
-                Email = customer.Email,
-                IsAdmin = customer.Admin
-            };
-            _context.Entry(userToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.Customers.Remove(userToDelete);
+            Entities.Customer customerToDelete = _context.Customers.Single(customer => customer.Id == custDel.Id);
+            _context.Entry(customerToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Customers.Remove(customerToDelete);
             _context.SaveChanges();
         }
 
-        public void DeleteReview(Domain.Review review)
+        public void DeleteReview(Domain.Review revDel)
         {
-            Entities.Review reviewToDelete = new Entities.Review
-            {
-                Id = review.Id,
-                CustomerId = review.CustomerId,
-                RestaurantId = review.RestaurantId,
-                Comment = review.textReview,
-                Stars = review.Stars
-            };
 
+            Entities.Review reviewToDelete = _context.Reviews.Single(review => review.Id == revDel.Id);
             _context.Reviews.Remove(reviewToDelete);
             _context.SaveChanges();
         }
 
-        public void DeleteRestaurant(Domain.Restaurant restaurant)
+        public void DeleteRestaurant(Domain.Restaurant restDel)
         {
-            List<Domain.Review> restaurantReviews = FindRatingsByRestaurantId(restaurant.Id);
+            List<Domain.Review> restaurantReviews = FindRatingsByRestaurantId(restDel.Id);
             foreach (Domain.Review review in restaurantReviews)
             {
                 DeleteReview(review);
             }
-            Entities.Restaurant restaurantToDelete = new Entities.Restaurant
-            {
-                Id = restaurant.Id,
-                Name = restaurant.Name,
-                Address = restaurant.Address,
-                Zip = restaurant.Zip
-            };
+            Entities.Restaurant restaurantToDelete = _context.Restaurants.Single(restaurant => restaurant.Id == restDel.Id);
             _context.Restaurants.Remove(restaurantToDelete);
             _context.SaveChanges();
         }

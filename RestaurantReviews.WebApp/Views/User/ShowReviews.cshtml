@@ -1,22 +1,22 @@
 ﻿@model IEnumerable<RestaurantReviews.Domain.Review>
 
-
 @{
-    ViewData["Title"] = "Reviews";
+    ViewData["Title"] = "ShowReviews";
 }
 
-<h1>Reviews For @ViewData["Restaurant"]                 @ViewData["Rating"] Stars</h1>
-<p>@ViewData["Address"]</p>
-
-<p>
-    <a asp-action="LeaveReview">Leave Review</a>
-</p>
+<h1>ShowReviews</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CustomerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Stars)
@@ -31,7 +31,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.CustomerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Stars)
@@ -40,26 +46,17 @@
                 @Html.DisplayFor(modelItem => item.textReview)
             </td>
             <td>
-                @Html.ActionLink("Details ", "ReviewDetails", item)
-                @if (TempData["CurrentUserId"] != null)
+                @if ((int)TempData["CurrentUserId"] == (int)TempData["customerId"])
                 {
-                    @if (item.CustomerId == (int)TempData["CurrentUserId"])
-                    {
-                        <span>| </span>@Html.ActionLink("Edit ", "EditReview", item)
-                    }
-
-                    @if (item.CustomerId == (int)TempData["CurrentUserId"] || TempData["IsAdmin"] != null)
-                    {
-                        <span>| </span>@Html.ActionLink("Delete", "DeleteReview", item)
-                    }
+                    @Html.ActionLink("Edit", "EditReview", "Restaurant", new {  id=item.Id })<span> | </span>
                 }
+                @if ((int)TempData["CurrentUserId"] == (int)TempData["customerId"] || TempData["IsAdmin"] != null)
+                {
+                @Html.ActionLink("Delete", "DeleteReview","Restaurant",  new {  id=item.Id  })
+                }
+
             </td>
         </tr>
 }
     </tbody>
 </table>
-<div>
-    <a asp-action="Search">Back to Restaurants</a>
-</div>
-
-

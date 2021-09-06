@@ -7,7 +7,7 @@
 <h1>Search Restaurants</h1>
 
 <p>
-    <a asp-action="AddRestaurant">Add Restaurant</a>
+    <a asp-action="CreateRestaurant">Add Restaurant</a>
 </p>
 <form asp-controller="Restaurant" asp-action="Search">
     <p>
@@ -50,6 +50,10 @@
             </td>
             <td>
                 @Html.ActionLink("Reviews", "Reviews", new { Id = item.Id }) 
+                @if (TempData["IsAdmin"] != null)
+                {
+                    <span >| </span>@Html.ActionLink("Delete", "DeleteRestaurant", item)
+                }
             </td>
         </tr>
 }

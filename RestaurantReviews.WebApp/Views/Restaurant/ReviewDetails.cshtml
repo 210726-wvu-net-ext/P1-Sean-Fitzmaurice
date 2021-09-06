@@ -1,0 +1,54 @@
+﻿@model RestaurantReviews.Domain.Review
+
+@{
+    ViewData["Title"] = "ReviewDetails";
+}
+
+<h1>ReviewDetails</h1>
+
+<div>
+    <h4>Review</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class = "col-sm-2">
+            Customer
+        </dt>
+        <dd class = "col-sm-10">
+            @ViewData["name"]
+        </dd>
+        <dt class = "col-sm-2">
+            Restaurant
+        </dt>
+        <dd class = "col-sm-10">
+            @ViewData["restaurant"]
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Stars)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Stars)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.textReview)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.textReview)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (TempData["CurrentUserId"] != null)
+    {
+        @if (Model.CustomerId == (int)TempData["CurrentUserId"])
+        {
+            @Html.ActionLink("Edit ", "EditReview", Model)<span>| </span>
+        }
+
+        @if (Model.CustomerId == (int)TempData["CurrentUserId"] || TempData["IsAdmin"] != null)
+        {
+            @Html.ActionLink("Delete", "DeleteReview", Model)<span>| </span>
+        }
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

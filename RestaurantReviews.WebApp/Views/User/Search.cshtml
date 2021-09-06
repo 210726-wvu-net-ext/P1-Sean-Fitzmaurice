@@ -4,7 +4,7 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Search</h1>
+<h1>Search Users</h1>
 
 <form asp-controller="User" asp-action="Search">
     <p>
@@ -53,7 +53,7 @@
             </td>
             <td>
 
-                @Html.ActionLink("Details", "Details", item)
+                @Html.ActionLink("Details", "Details", item) |
                 @Html.ActionLink("Delete", "deleteUser", item)
 
             </td>

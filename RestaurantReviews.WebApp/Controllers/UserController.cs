@@ -8,9 +8,13 @@ using RestaurantReviews.WebApp.Models;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
+    /// <summary>
+    /// Controller for user management
+    /// </summary>
     public class UserController : Controller
     {
         private readonly IRepository _repo;
+
         public UserController(IRepository repo)
         {
             _repo = repo;

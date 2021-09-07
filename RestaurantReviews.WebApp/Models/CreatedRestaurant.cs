@@ -8,6 +8,10 @@ using System.ComponentModel;
 
 namespace RestaurantReviews.WebApp.Models
 {
+    /// <summary>
+    /// validatible restuarant object, breaks down address string into individual fields so they can each be
+    /// validated seperately, and combined into address later
+    /// </summary>
     public class CreatedRestaurant : IValidatableObject
     {
         [Required]
@@ -26,6 +30,12 @@ namespace RestaurantReviews.WebApp.Models
 
         [Required]
         public int Zip { get; set; }
+
+        /// <summary>
+        /// validation method, checks if address will be valid varchar, checks if name is valid varchar, capitalizes individual compnents of address
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns>validation list</returns>
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -62,6 +72,12 @@ namespace RestaurantReviews.WebApp.Models
             }
             return results;
         }
+
+        /// <summary>
+        /// method used to capitalize every seperate word in a string
+        /// </summary>
+        /// <param name="str">string to be capitalized</param>
+        /// <returns>capitalized string</returns>
         private string Capitalize(string str)
         {
             List<int> foundSpaces = new List<int>();

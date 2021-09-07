@@ -15,11 +15,20 @@ namespace RestaurantReviews.WebApp.Controllers
     {
         private readonly IRepository _repo;
 
+        /// <summary>
+        /// initilizes the repo
+        /// </summary>
+        /// <param name="repo"></param>
         public UserController(IRepository repo)
         {
             _repo = repo;
 
         }
+
+        /// <summary>
+        /// action for viewing profile of logged in user
+        /// </summary>
+        /// <returns>view containing detila of logged in user</returns>
         public IActionResult Profile()
         {
             int userId = (int)TempData["CurrentUserId"];
@@ -31,6 +40,12 @@ namespace RestaurantReviews.WebApp.Controllers
             Customer customer = _repo.GetCustomerById(userId);
             return View(customer);
         }
+
+        /// <summary>
+        /// action for viewing details for admin view
+        /// </summary>
+        /// <param name="customer">customer to be viewed</param>
+        /// <returns>view containing details of user</returns>
         public IActionResult Details(Customer customer)
         {
             if(customer.Name is null)
@@ -49,11 +64,23 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("customerId");
             return View(customer);
         }
+
+        /// <summary>
+        /// get action for registering a new user
+        /// </summary>
+        /// <returns>view of from for registering new user</returns>
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
+        /// <summary>
+        /// post action for creation of new user, checks to see if entered information is valid and that name is not a duplicate
+        /// if successul automatically logs user in with use of TempData
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register(CreatedCustomer viewModel)
@@ -75,6 +102,11 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("CurrentUserId");
             return RedirectToAction("Profile");
         }
+        
+        /// <summary>
+        /// action method for logging out, removes IsAdmin and userID from dictionary
+        /// </summary>
+        /// <returns>home index</returns>
         public IActionResult Logout()
         {
             if(TempData["IsAdmin"] != null)
@@ -84,6 +116,11 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Remove("CurrentUserId");
             return RedirectToAction("Index", "Home");
         }
+        /// <summary>
+        /// search user action checks if user is an admin
+        /// </summary>
+        /// <param name="searchString">string to search</param>
+        /// <returns>view of users matching search criteria</returns>
         public IActionResult Search(string searchString)
         {
             
@@ -103,6 +140,12 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("IsAdmin");
             return View(list);
         }
+
+        /// <summary>
+        /// get action for deleting a user, checks if user is an admin
+        /// </summary>
+        /// <param name="deleteCustomer">customer object to delete</param>
+        /// <returns>view displaying detials of customer being deleted</returns>
         [HttpGet]
         public IActionResult deleteUser(Customer deleteCustomer)
         {
@@ -123,6 +166,13 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("ToDeleteId");
             return View(deleteCustomer);
         }
+
+        /// <summary>
+        /// post action for deletion of customer, checks if password and ID entered matches
+        /// </summary>
+        /// <param name="toDeleteId">PK Id of user to be delted</param>
+        /// <param name="password">password of logged in admin</param>
+        /// <returns>if successful returns to user search, if not returns error page and aborts deltion</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult deleteUser(string toDeleteId, string password)
@@ -144,8 +194,13 @@ namespace RestaurantReviews.WebApp.Controllers
             {
                 return RedirectToAction("Error", "Error", new { message = "User ID or Password was entered incorrectly, aborting user delete." });
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Search", "User");
         }
+        /// <summary>
+        /// show all reviews for a given user
+        /// </summary>
+        /// <param name="id">PK ID of user to display review of</param>
+        /// <returns>view containing a lis tof reviews by the given user</returns>
         public IActionResult ShowReviews(int id)
         {
             Customer customer = _repo.GetCustomerById(id);

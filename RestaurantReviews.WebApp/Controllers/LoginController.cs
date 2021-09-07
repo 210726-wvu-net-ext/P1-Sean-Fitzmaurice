@@ -7,14 +7,26 @@ using RestaurantReviews.Domain;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
+    /// <summary>
+    /// Login controller for handling login attempts by a user
+    /// </summary>
     public class LoginController : Controller
     {
         private readonly IRepository _repo;
+        /// <summary>
+        /// initializes creation of repo
+        /// </summary>
+        /// <param name="repo"></param>
         public LoginController(IRepository repo)
         {
             _repo = repo;
 
         }
+        /// <summary>
+        /// Login Action get
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Login(string message)
         {
@@ -22,6 +34,13 @@ namespace RestaurantReviews.WebApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Login action post, get user by entered customer Name and checks to see if entered password matches 
+        /// if successful, uses TempData to track user ID and if user is an admin
+        /// </summary>
+        /// <param name="Name">entered name by user</param>
+        /// <param name="pass">entered password by user</param>
+        /// <returns>a view depending on what success of login</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(string Name, string pass)
@@ -64,6 +83,10 @@ namespace RestaurantReviews.WebApp.Controllers
                 return Login("Username does not exist");
             }
         }
+        /// <summary>
+        /// redirects user to user controller, to create a new customer
+        /// </summary>
+        /// <returns>Action method for register in User controller</returns>
         public IActionResult Register()
         {
             return RedirectToAction("Register", "User");

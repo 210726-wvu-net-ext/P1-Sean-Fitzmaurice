@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace RestaurantReviews.Domain
 {
     /// <summary>
-    /// Restaurant Model
+    /// Restaurant Model containing fields ID name address and zip, constuctor with ID should only be used in repo and edit review
     /// </summary>
     public class Restaurant
     {

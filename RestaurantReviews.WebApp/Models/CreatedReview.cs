@@ -8,6 +8,10 @@ using System.ComponentModel;
 
 namespace RestaurantReviews.WebApp.Models
 {
+
+    /// <summary>
+    /// validateible review class
+    /// </summary>
     public class CreatedReview : IValidatableObject
     {
         [Required]
@@ -16,6 +20,12 @@ namespace RestaurantReviews.WebApp.Models
         [Required]
         [DisplayName("Comment")]
         public string textReview { get; set; }
+
+        /// <summary>
+        /// validation method, checks if stars rating is in bounds, checks if varchar will not be too long
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns>validation results list</returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
@@ -36,7 +46,7 @@ namespace RestaurantReviews.WebApp.Models
             }
 
             return results;
-            //still need to add validation check for stars between 1 and 5
+            
         }
     }
 }

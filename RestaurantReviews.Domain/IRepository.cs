@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace RestaurantReviews.Domain
 {
+    /// <summary>
+    /// Interface for repository 
+    /// </summary>
     public interface IRepository
     {
         Restaurant AddRestaurant(Restaurant restaurant);

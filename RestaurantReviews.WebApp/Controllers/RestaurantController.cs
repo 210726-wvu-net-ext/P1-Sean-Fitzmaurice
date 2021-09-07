@@ -9,24 +9,48 @@ using RestaurantReviews.WebApp.Models;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
-    
+    /// <summary>
+    /// restaurant controller handles most views having to do restaurants and reviews
+    /// </summary>
     public class RestaurantController : Controller
     {
         private readonly IRepository _repo;
+
+        /// <summary>
+        /// initializes creation of crpo
+        /// </summary>
+        /// <param name="repo"></param>
         public RestaurantController(IRepository repo)
         {
             _repo = repo;
 
         }
+
+        /// <summary>
+        /// index action for restaurant controller, shows all restaurants in database in list
+        /// </summary>
+        /// <returns>view containing all restaurants in DB</returns>
         public IActionResult Index()
         {
             return View(_repo.SearchRestaurantsName(""));
         }
+
+        /// <summary>
+        /// search action get
+        /// </summary>
+        /// <returns>view containing search</returns>
         [HttpGet]
         public IActionResult Search()
         {
             return View(_repo.SearchRestaurantsName(""));
         }
+
+        /// <summary>
+        /// search action post, takes string entered by user in search bar, if entered string can be converted to int, assumes search for zip
+        /// if it cannot, searches restaurants by both 'Address' and 'Name' columns in DB, combines returned lists and takes out duplicates
+        /// </summary>
+        /// <param name="searchString">entered search string by user</param>
+        /// <returns>list of objects which match the entered search criteria</returns>
         [HttpPost]
         public IActionResult Search(string searchString)
         {
@@ -54,6 +78,12 @@ namespace RestaurantReviews.WebApp.Controllers
             return View(Restaurants);
 
         }
+
+        /// <summary>
+        /// shows all reviews for a given restaurant
+        /// </summary>
+        /// <param name="Id">ID primary key of restaurant to find reviews for</param>
+        /// <returns>list of reviews for given restaurant</returns>
         public IActionResult Reviews(int Id)
         {
             List<Review> reviews = _repo.FindRatingsByRestaurantId(Id);
@@ -76,6 +106,12 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("IsAdmin");
             return View(reviews);
         }
+
+        /// <summary>
+        /// calculate the average rating of a restaurant
+        /// </summary>
+        /// <param name="reviews">list of reviews</param>
+        /// <returns>decimal </returns>
         public decimal AverageRating(List<Review> reviews)
         {
             decimal avg = 0;
@@ -89,8 +125,14 @@ namespace RestaurantReviews.WebApp.Controllers
                 avg += review.Stars;
             }
             avg = avg / count;
+            Decimal.Round(avg, 2);
             return avg;
         }
+
+        /// <summary>
+        /// leave review action get, redirects the user to login page if they are not logged in, redirects user to edit if they already have a review
+        /// </summary>
+        /// <returns>view containing form for review</returns>
         [HttpGet]
         public IActionResult LeaveReview()
         {
@@ -116,6 +158,11 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("CurrentUserId");
             return View();
         }
+        /// <summary>
+        /// leave review action post, if textReview field is left empty, automatically fills it with base comment, checks if review is valid, and if so, adds it to DB through repo
+        /// </summary>
+        /// <param name="viewModel">the validatible version of a review object</param>
+        /// <returns>reviews page if left review is valid, returns the same view if not valid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult LeaveReview(CreatedReview viewModel)
@@ -141,18 +188,30 @@ namespace RestaurantReviews.WebApp.Controllers
             }
 
         }
+
+        /// <summary>
+        /// checks if logged in customer has a review already for a restaurant
+        /// </summary>
+        /// <param name="customerId">PK ID of given in user</param>
+        /// <param name="restaurantId">PK ID of given restaurant</param>
+        /// <returns>returns a review object, if they do have an old review, returns that, otherwise returns new review object</returns>
         public Review CustomerHasReview(int customerId, int restaurantId)
         {
             List<Review> list = _repo.FindRatingsByRestaurantId(restaurantId);
             Review oldReview = list.FirstOrDefault(review => review.CustomerId == customerId);
             if(oldReview is null)
             {
-                oldReview = new Review();
+                oldReview = new Review(); //lol
             }
 
             return oldReview;
 
         }
+        /// <summary>
+        /// get action for deleteing a review, checks if logged in user is an admin, or is the user who left the review
+        /// </summary>
+        /// <param name="deleteReview">the review being deleted</param>
+        /// <returns>delete view displaying review objects details</returns>
         [HttpGet]
         public IActionResult DeleteReview(Review deleteReview)
         {
@@ -174,6 +233,11 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("ToDeleteId");
             return View(deleteReview);
         }
+        /// <summary>
+        /// post action for deleting reviews, checks if password matches logged in user, if they do, removes it from DB using repo
+        /// </summary>
+        /// <param name="password">password entered by user</param>
+        /// <returns>restaurant index if succesful, returns same view if password does not match</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteReview(string password)
@@ -198,6 +262,11 @@ namespace RestaurantReviews.WebApp.Controllers
             return RedirectToAction("Index", "Restaurant");
         }
 
+        /// <summary>
+        /// get action for editing a review, creates validatible review object which takes information from old review
+        /// </summary>
+        /// <param name="viewModel">the review being edited</param>
+        /// <returns>view displaying validatible review object</returns>
         [HttpGet]
         public IActionResult EditReview(Review viewModel)
         {
@@ -211,6 +280,12 @@ namespace RestaurantReviews.WebApp.Controllers
             return View(editReview);
         }
 
+        /// <summary>
+        /// post action for editing a review, checks if new review is valid, transfers uneditible information from old review to new review, deletes
+        /// old review and finally adds new review to DB using review
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns>redirection to list of reviews for a given restaurant if valid, same view if new review is not valid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditReview(CreatedReview viewModel)
@@ -238,6 +313,10 @@ namespace RestaurantReviews.WebApp.Controllers
             return RedirectToAction("Reviews", new { id = newReview.RestaurantId });
         }
 
+        /// <summary>
+        /// get action for creating a restaurant, checks if user is logged in, redircts fto login page if not
+        /// </summary>
+        /// <returns>view containing form for restaurant information</returns>
         [HttpGet]
         public IActionResult CreateRestaurant()
         {
@@ -249,6 +328,12 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             return View();
         }
+
+        /// <summary>
+        /// checks if restaurant is valid, creates domain object from validatible one if valid and passes it to repo for entry into DB
+        /// </summary>
+        /// <param name="viewModel">entered user infromation, in validatible restaurant</param>
+        /// <returns>restaurant index if valid, same view if not valid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateRestaurant(CreatedRestaurant viewModel)
@@ -262,6 +347,12 @@ namespace RestaurantReviews.WebApp.Controllers
             _repo.AddRestaurant(newRestaurant);
             return RedirectToAction( "Index", "Restaurant");
         }
+        
+        /// <summary>
+        /// get action for deleting a restaurant, checks if user is admin
+        /// </summary>
+        /// <param name="deleteRestaurant">restaurant object to be removed from DB</param>
+        /// <returns>returns view with restaurant to be deleted info if admin, if not admin returns error page</returns>
         [HttpGet]
         public IActionResult DeleteRestaurant(Restaurant deleteRestaurant)
         {
@@ -277,6 +368,13 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("ToDeleteId");
             return View(deleteRestaurant);
         }
+
+        /// <summary>
+        /// post action for deleting restaurant, checks if entered password and ID match
+        /// </summary>
+        /// <param name="toDeleteId">ID of restaurant to be deleted</param>
+        /// <param name="password">password of logged in admin</param>
+        /// <returns>error page if password or ID does not match, restaurant index if dletion is successful</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteRestaurant(string toDeleteId, string password)
@@ -300,6 +398,12 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             return RedirectToAction("Index", "Restaurant");
         }
+
+        /// <summary>
+        /// details action page for a given review
+        /// </summary>
+        /// <param name="review">review to show details for</param>
+        /// <returns>view with detials on given review</returns>
         public IActionResult ReviewDetails(Review review)
         {
             string name = _repo.GetCustomerById(review.CustomerId).Name;

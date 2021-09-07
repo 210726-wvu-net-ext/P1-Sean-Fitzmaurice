@@ -8,6 +8,9 @@ using System.ComponentModel;
 
 namespace RestaurantReviews.WebApp.Models
 {
+    /// <summary>
+    /// validitible customer model
+    /// </summary>
     public class CreatedCustomer : IValidatableObject
     {
         [Required]
@@ -29,7 +32,11 @@ namespace RestaurantReviews.WebApp.Models
         [Required]
         public string Email { get; set; }
         
-
+        /// <summary>
+        /// validation method, checks if passwords entered match, checks if varchars are not too long
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns>validation checks list</returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();

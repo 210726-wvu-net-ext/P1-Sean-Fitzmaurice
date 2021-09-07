@@ -27,9 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zip)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,11 +38,9 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Address)
+                    @Html.DisplayFor(modelItem => item.Address), @Html.DisplayFor(modelItem => item.Zip)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Zip)
-                </td>
+
                 <td>
                     @Html.ActionLink("Reviews", "Reviews", new { Id = item.Id })
                     

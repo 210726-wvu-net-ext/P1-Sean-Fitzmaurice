@@ -80,7 +80,7 @@ namespace RestaurantReviews.WebApp.Controllers
         }
 
         /// <summary>
-        /// shows all reviews for a given restaurant
+        /// shows all reviews for a given restaurant passed restaurant name and address through viewdata
         /// </summary>
         /// <param name="Id">ID primary key of restaurant to find reviews for</param>
         /// <returns>list of reviews for given restaurant</returns>
@@ -89,7 +89,7 @@ namespace RestaurantReviews.WebApp.Controllers
             List<Review> reviews = _repo.FindRatingsByRestaurantId(Id);
             Restaurant restaurant = _repo.GetRestaurantById(Id);
             ViewData["Restaurant"] = restaurant.Name;
-            ViewData["Address"] = $"{restaurant.Address} {restaurant.Zip}";
+            ViewData["Address"] = restaurant.GetFullAddress();
             decimal rating = AverageRating(reviews);
             if(rating == -1)
             {
@@ -125,7 +125,7 @@ namespace RestaurantReviews.WebApp.Controllers
                 avg += review.Stars;
             }
             avg = avg / count;
-            Decimal.Round(avg, 2);
+            avg = Decimal.Round(avg, 2);
             return avg;
         }
 
@@ -342,7 +342,7 @@ namespace RestaurantReviews.WebApp.Controllers
             {
                 return View(viewModel);
             }
-            string address = $"{viewModel.StreetNumber} {viewModel.StreetName}, {viewModel.City}, {viewModel.State}";
+            string address = $"{viewModel.StreetNumber} {viewModel.StreetName}, {viewModel.City} {viewModel.State}";
             Restaurant newRestaurant = new Restaurant(viewModel.Name, address, viewModel.Zip);
             _repo.AddRestaurant(newRestaurant);
             return RedirectToAction( "Index", "Restaurant");

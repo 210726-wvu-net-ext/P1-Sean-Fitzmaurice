@@ -27,6 +27,16 @@ namespace RestaurantReviews.Domain
             this.Address = address;
             this.Name = name;
         }
+        /// <summary>
+        /// comcatinates zip and address into single string for display
+        /// </summary>
+        /// <returns>concatinated string</returns>
+        public string GetFullAddress()
+        {
+            string fullAddress = $"{Address}, {Zip}";
+            return fullAddress;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }

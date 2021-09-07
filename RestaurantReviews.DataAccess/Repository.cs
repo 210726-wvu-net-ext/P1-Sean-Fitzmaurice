@@ -112,7 +112,7 @@ namespace RestaurantReviews.DataAccess
             return restaurant;
         }
         /// <summary>
-        /// Gets a restaurant reviews by its primary key ID
+        /// Gets a restaurant reviews by its primary key ID orders reviews by date (most recent)
         /// </summary>
         /// <param name="Id">ID primary key of restauarant</param>
         /// <returns>list of reviews with foreign key matching restaurant primary key</returns>
@@ -122,13 +122,13 @@ namespace RestaurantReviews.DataAccess
             List<Domain.Review> list = _context.Reviews.Select(
                 Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment, Review.LeftAt)
             ).ToList();
-            List<Domain.Review> query = list.Where(Review => Review.RestaurantId == Id).ToList();
+            List<Domain.Review> query = list.Where(Review => Review.RestaurantId == Id).OrderBy(Review => Review.Date).ToList();
             query.Reverse();
             return query;
 
         }
         /// <summary>
-        /// Finds reviews made by specific customer
+        /// Finds reviews made by specific customer orders reviews by date (most recent)
         /// </summary>
         /// <param name="customer">customer to find reviews for</param>
         /// <returns>list of reviews made by customer</returns>
@@ -138,7 +138,7 @@ namespace RestaurantReviews.DataAccess
             List<Domain.Review> list = _context.Reviews.Select(
                 Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment, Review.LeftAt)
             ).ToList();
-            List<Domain.Review> query = list.Where(Review => Review.CustomerId == customer.Id).ToList();
+            List<Domain.Review> query = list.Where(Review => Review.CustomerId == customer.Id).OrderBy(Review => Review.Date).ToList();
             query.Reverse();
             return query;
         }

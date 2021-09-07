@@ -284,7 +284,7 @@ namespace RestaurantReviews.WebApp.Controllers
             int id;
             if (!int.TryParse(toDeleteId, out id))
             {
-                return RedirectToAction("Error", "Error", new { message = "Must be an Admin to take this action!" });
+                return RedirectToAction("Error", "Error", new { message = "Restaurant Id was entered incorrectly, aborting delete of restaurant" });
             }
             if (password == _repo.GetCustomerById((int)TempData["CurrentUserId"]).Pass && id == (int)TempData["ToDeleteId"])
             {
@@ -296,7 +296,7 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             else
             {
-                return RedirectToAction("Error", "Error", new { message = "Must be an Admin to take this action!" });
+                return RedirectToAction("Error", "Error", new { message = "Restaurant Id or Password was entered incorrectly, aborting delete of restaurant" });
             }
             return RedirectToAction("Index", "Restaurant");
         }

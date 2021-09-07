@@ -105,13 +105,13 @@ namespace RestaurantReviews.WebApp.Controllers
             Customer admin = _repo.GetCustomerById((int)TempData["CurrentUserId"]);
             if ((int)TempData["CurrentUserId"] == deleteCustomer.Id)
             {
-                return RedirectToAction("Error", "Error", "Cannot delete an account from itself.");
+                return RedirectToAction("Error", "Error", new { message = "Cannot delete an account from itself." });
             }
             if(admin.Admin is null)
             {
                 TempData.Keep("IsAdmin");
                 TempData.Keep("CurrentUserId");
-                return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                return RedirectToAction("Error", "Error",new { message = "Must be an Admin to take this action!" });
             }
             TempData["ToDeleteId"] = deleteCustomer.Id;
             TempData.Keep("IsAdmin");
@@ -126,7 +126,7 @@ namespace RestaurantReviews.WebApp.Controllers
             int id;
             if(!int.TryParse(toDeleteId, out id))
             {
-                return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                return RedirectToAction("Error", "Error", new { message = "Id was entered incorrectly, aborting user delete." });
             }
             if(password == _repo.GetCustomerById((int)TempData["CurrentUserId"]).Pass && id == (int)TempData["ToDeleteId"])
             {
@@ -138,7 +138,7 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             else
             {
-                return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                return RedirectToAction("Error", "Error", new { message = "User ID or Password was entered incorrectly, aborting user delete." });
             }
             return RedirectToAction("Index", "Home");
         }

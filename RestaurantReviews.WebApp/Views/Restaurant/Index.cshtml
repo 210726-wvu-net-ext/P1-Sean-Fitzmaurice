@@ -48,6 +48,11 @@
                 </td>
                 <td>
                     @Html.ActionLink("Reviews", "Reviews", new { Id = item.Id })
+                    
+                    @if (TempData["IsAdmin"] != null)
+                    {
+                        <span>| </span>@Html.ActionLink("Delete", "DeleteRestaurant", item)
+                    }
                 </td>
             </tr>
         }

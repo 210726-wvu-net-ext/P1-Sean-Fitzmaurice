@@ -13,13 +13,14 @@ namespace RestaurantReviews.Domain
     {
         public Review() { }
 
-        public Review(int reviewId, decimal stars, int customer, int restaurant, string textReview)
+        public Review(int reviewId, decimal stars, int customer, int restaurant, string textReview, DateTime leftAt)
         {
             this.Id = reviewId;
             this.Stars = stars;
             this.textReview = textReview;
             this.CustomerId = customer;
             this.RestaurantId = restaurant;
+            this.Date = leftAt;
         }
 
         public Review(decimal stars, int customer, int restaurant, string textReview)
@@ -28,9 +29,10 @@ namespace RestaurantReviews.Domain
             this.textReview = textReview;
             this.CustomerId = customer;
             this.RestaurantId = restaurant;
+            this.Date = DateTime.Now;
         }
 
-
+        public DateTime Date{get; set;}
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int RestaurantId { get; set; }

@@ -44,6 +44,12 @@
     </dl>
     @using (Html.BeginForm())
     {
+        @if(ViewData["message"] != null)
+        {
+            <span class="text-danger">@ViewData["message"]</span>
+            <br />
+        }
+        
         <input label="Password" type="text" name="password" />
         <input value="Delete" type="submit" class="btn btn-danger" />
     }

@@ -44,6 +44,12 @@ namespace RestaurantReviews.WebApp.Controllers
                     {
                         return Redirect((string)TempData["returnPath"]);
                     }
+
+                    if (TempData["redirectController"] != null && TempData["redirectView"] != null)
+                    {
+                        TempData.Keep("RestaurantId");
+                        return RedirectToAction((string)TempData["redirectView"], (string)TempData["redirectController"]);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else

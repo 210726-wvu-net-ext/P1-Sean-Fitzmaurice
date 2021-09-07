@@ -83,7 +83,7 @@ namespace RestaurantReviews.DataAccess
         {
             
             List<Domain.Review> list = _context.Reviews.Select(
-                Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment)
+                Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment, Review.LeftAt)
             ).ToList();
             List<Domain.Review> query = list.Where(Review => Review.RestaurantId == Id).ToList();
             query.Reverse();
@@ -95,7 +95,7 @@ namespace RestaurantReviews.DataAccess
         {
 
             List<Domain.Review> list = _context.Reviews.Select(
-                Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment)
+                Review => new Domain.Review(Review.Id, Review.Stars, Review.CustomerId, Review.RestaurantId, Review.Comment, Review.LeftAt)
             ).ToList();
             List<Domain.Review> query = list.Where(Review => Review.CustomerId == customer.Id).ToList();
             query.Reverse();
@@ -135,7 +135,8 @@ namespace RestaurantReviews.DataAccess
                     CustomerId = review.CustomerId,
                     RestaurantId = review.RestaurantId,
                     Comment = review.textReview,
-                    Stars = review.Stars
+                    Stars = review.Stars,
+                    LeftAt =review.Date
                 }
             );
             _context.SaveChanges();
@@ -192,7 +193,7 @@ namespace RestaurantReviews.DataAccess
                 .FirstOrDefault(review => review.Id == Id);
             if (foundReview != null)
             {
-                return new Domain.Review(foundReview.Id, foundReview.Stars, foundReview.CustomerId, foundReview.RestaurantId, foundReview.Comment);
+                return new Domain.Review(foundReview.Id, foundReview.Stars, foundReview.CustomerId, foundReview.RestaurantId, foundReview.Comment, foundReview.LeftAt);
             }
             return new Domain.Review();
         }

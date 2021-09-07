@@ -8,9 +8,10 @@ namespace RestaurantReviews.WebApp.Controllers
 {
     public class ErrorController : Controller
     {
-        public IActionResult Index(string message)
+        public IActionResult Error(string message)
         {
-            return View(message);
+            ViewData["message"] = message;
+            return View();
         }
     }
 }

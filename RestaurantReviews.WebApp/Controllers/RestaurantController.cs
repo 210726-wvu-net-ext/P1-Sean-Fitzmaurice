@@ -60,7 +60,16 @@ namespace RestaurantReviews.WebApp.Controllers
             Restaurant restaurant = _repo.GetRestaurantById(Id);
             ViewData["Restaurant"] = restaurant.Name;
             ViewData["Address"] = $"{restaurant.Address} {restaurant.Zip}";
-            ViewData["Rating"] = AverageRating(reviews);
+            decimal rating = AverageRating(reviews);
+            if(rating == -1)
+            {
+                ViewData["Rating"] = "-";
+            }
+            else
+            {
+                ViewData["Rating"] = rating;
+            }
+             
             TempData["RestaurantId"] = restaurant.Id;
             TempData.Keep("RestaurantId");
             TempData.Keep("CurrentUserId");
@@ -71,6 +80,10 @@ namespace RestaurantReviews.WebApp.Controllers
         {
             decimal avg = 0;
             int count = reviews.Count;
+            if(count == 0)
+            {
+                return -1;
+            }
             foreach(Review review in reviews)
             {
                 avg += review.Stars;
@@ -81,10 +94,13 @@ namespace RestaurantReviews.WebApp.Controllers
         [HttpGet]
         public IActionResult LeaveReview()
         {
+            TempData["RestaurantName"] = _repo.GetRestaurantById((int)TempData["RestaurantId"]).Name;
+            TempData.Keep("RestaurantName");
             TempData.Keep("RestaurantId");
             if(TempData["CurrentUserId"] is null)
             {
-                
+                TempData["redirectController"] = "Restaurant";
+                TempData["redirectView"] = "LeaveReview";
                 return RedirectToAction("Login", "Login");
             }
             int userId = (int)TempData["CurrentUserId"];
@@ -94,7 +110,7 @@ namespace RestaurantReviews.WebApp.Controllers
             {
                 TempData.Keep("IsAdmin");
                 TempData.Keep("CurrentUserId");
-                return EditReview(oldReview); //edit 
+                return RedirectToAction("EditReview", oldReview ); //edit 
             }
             TempData.Keep("IsAdmin");
             TempData.Keep("CurrentUserId");
@@ -117,7 +133,7 @@ namespace RestaurantReviews.WebApp.Controllers
                 int restaurantId = (int)TempData["RestaurantId"];
                 Review review = new Review(viewModel.Stars, userId, restaurantId, viewModel.textReview);
                 _repo.LeaveReview(review);
-                return RedirectToAction("Reviews", restaurantId);
+                return RedirectToAction("Reviews", new { id = restaurantId });
             }
             else
             {
@@ -148,7 +164,7 @@ namespace RestaurantReviews.WebApp.Controllers
                 {
                     TempData.Keep("IsAdmin");
                     TempData.Keep("CurrentUserId");
-                    return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                    return RedirectToAction("Error", "Error", new { message = "Must be an Admin to take this action!" });
                 }
 
             }
@@ -175,11 +191,13 @@ namespace RestaurantReviews.WebApp.Controllers
             {
                 TempData.Keep("IsAdmin");
                 TempData.Keep("CurrentUserId");
-                TempData.Remove("ToDeleteId");
-                return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                TempData.Keep("ToDeleteId");
+                ViewData["message"] = "Incorrect Password";
+                return View(_repo.GetReviewById(id));
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Restaurant");
         }
+
         [HttpGet]
         public IActionResult EditReview(Review viewModel)
         {
@@ -192,6 +210,7 @@ namespace RestaurantReviews.WebApp.Controllers
             TempData.Keep("ToEditId");
             return View(editReview);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditReview(CreatedReview viewModel)
@@ -211,17 +230,21 @@ namespace RestaurantReviews.WebApp.Controllers
             newReview.CustomerId = oldReview.CustomerId;
             newReview.Stars = viewModel.Stars;
             newReview.textReview = viewModel.textReview;
+            newReview.Date = DateTime.Now;
             _repo.DeleteReview(oldReview);
             _repo.LeaveReview(newReview);
             TempData.Keep("IsAdmin");
             TempData.Keep("CurrentUserId");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Reviews", new { id = newReview.RestaurantId });
         }
+
         [HttpGet]
         public IActionResult CreateRestaurant()
         {
             if (TempData["CurrentUserId"] is null)
             {
+                TempData["redirectController"] = "CreateRestaurant";
+                TempData["redirectView"] = "Restaurant";
                 return RedirectToAction("Login", "Login");
             }
             return View();
@@ -237,7 +260,7 @@ namespace RestaurantReviews.WebApp.Controllers
             string address = $"{viewModel.StreetNumber} {viewModel.StreetName}, {viewModel.City}, {viewModel.State}";
             Restaurant newRestaurant = new Restaurant(viewModel.Name, address, viewModel.Zip);
             _repo.AddRestaurant(newRestaurant);
-            return RedirectToAction( "Search", "Restaurant");
+            return RedirectToAction( "Index", "Restaurant");
         }
         [HttpGet]
         public IActionResult DeleteRestaurant(Restaurant deleteRestaurant)
@@ -246,7 +269,7 @@ namespace RestaurantReviews.WebApp.Controllers
             Customer customer = _repo.GetCustomerById(currentId);
             if (customer.Admin is null)
             {
-                    return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");  
+                    return RedirectToAction("Error", "Error", new { message = "Must be an Admin to take this action!" });  
             }
             TempData["ToDeleteId"] = deleteRestaurant.Id;
             TempData.Keep("IsAdmin");
@@ -261,7 +284,7 @@ namespace RestaurantReviews.WebApp.Controllers
             int id;
             if (!int.TryParse(toDeleteId, out id))
             {
-                return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                return RedirectToAction("Error", "Error", new { message = "Must be an Admin to take this action!" });
             }
             if (password == _repo.GetCustomerById((int)TempData["CurrentUserId"]).Pass && id == (int)TempData["ToDeleteId"])
             {
@@ -273,7 +296,7 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             else
             {
-                return RedirectToAction("Error", "Error", "Must be an Admin to take this action!");
+                return RedirectToAction("Error", "Error", new { message = "Must be an Admin to take this action!" });
             }
             return RedirectToAction("Index", "Restaurant");
         }

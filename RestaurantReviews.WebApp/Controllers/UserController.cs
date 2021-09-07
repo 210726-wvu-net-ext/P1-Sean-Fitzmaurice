@@ -20,6 +20,7 @@ namespace RestaurantReviews.WebApp.Controllers
         {
             int userId = (int)TempData["CurrentUserId"];
             TempData["customerId"] = userId;
+            TempData["returnView"] = "Profile";
             TempData.Keep("customerId");
             TempData.Keep("IsAdmin");
             TempData.Keep("CurrentUserId");
@@ -28,7 +29,19 @@ namespace RestaurantReviews.WebApp.Controllers
         }
         public IActionResult Details(Customer customer)
         {
+            if(customer.Name is null)
+            {
+                if(TempData["customerId"] != null)
+                {
+                    customer = _repo.GetCustomerById((int)TempData["customerId"]);
+                }
+                else
+                {
+                    return RedirectToAction("Error", "Error", new { message = "Something went wrong, user Id does not exist" });
+                }
+            }
             TempData["customerId"] = customer.Id;
+            TempData["returnView"] = "Details";
             TempData.Keep("customerId");
             return View(customer);
         }

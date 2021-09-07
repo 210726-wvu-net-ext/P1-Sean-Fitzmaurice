@@ -21,8 +21,6 @@ namespace RestaurantReviews.DataAccess.Entities
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
 
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -83,14 +81,12 @@ namespace RestaurantReviews.DataAccess.Entities
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Review__Customer__515009E6");
+                    .HasConstraintName("FK__Review__Customer__4D4A6ED8");
 
                 entity.HasOne(d => d.Restaurant)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.RestaurantId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Review__Restaura__52442E1F");
+                    .HasConstraintName("FK__Review__Restaura__4E3E9311");
             });
 
             OnModelCreatingPartial(modelBuilder);

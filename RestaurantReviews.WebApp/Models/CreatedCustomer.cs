@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using RestaurantReviews.Domain;
 using System.ComponentModel;
@@ -52,6 +51,22 @@ namespace RestaurantReviews.WebApp.Models
             if (this.Pass != this.ConfirmPass)
             {
                 results.Add(new ValidationResult("Passwords do not match"));
+            }
+            if(this.Pass.Length > 100)
+            {
+                results.Add(new ValidationResult("Password is too long, maximum 100 characters"));
+            }
+            if (this.Name.Length > 100)
+            {
+                results.Add(new ValidationResult("Name is too long, maximum 100 characters"));
+            }
+            if (this.Phone.Length > 14)
+            {
+                results.Add(new ValidationResult("Phone number is too long, maximum 14 characters"));
+            }
+            if (this.Email.Length > 100)
+            {
+                results.Add(new ValidationResult("Email is too long, maximum 100 characters"));
             }
 
             return results;

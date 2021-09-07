@@ -30,6 +30,10 @@ namespace RestaurantReviews.WebApp.Models
             {
                 results.Add(new ValidationResult("Rating out of bounds!"));
             }
+            if (this.textReview.Length > 300)
+            {
+                results.Add(new ValidationResult("Review is too long, maximum 300 characters"));
+            }
 
             return results;
             //still need to add validation check for stars between 1 and 5

@@ -48,13 +48,18 @@ namespace RestaurantReviews.WebApp.Models
             Validator.TryValidateProperty(this.Zip,
                 new ValidationContext(this, null, null) { MemberName = "Zip", },
                 results);
-            //this.Name = char.ToUpper(this.Name[0]) + this.Name.Substring(1);
-            //this.StreetName = char.ToUpper(this.StreetName[0]) + this.StreetName.Substring(1);
-            //this.City = char.ToUpper(this.City[0]) + this.City.Substring(1);
             this.State = this.State.ToUpper();
             Name = Capitalize(Name);
             StreetName = Capitalize(StreetName);
             City = Capitalize(City);
+            if (this.Name.Length > 100)
+            {
+                results.Add(new ValidationResult("Name is too long, maximum 100 characters"));
+            }
+            if ((this.StreetNumber.ToString().Length + this.StreetName.Length +this.City.Length+this.State.Length) > 100)
+            {
+                results.Add(new ValidationResult("Address is too long, maximum 100 characters"));
+            }
             return results;
         }
         private string Capitalize(string str)

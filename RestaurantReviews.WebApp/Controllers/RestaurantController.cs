@@ -90,51 +90,28 @@ namespace RestaurantReviews.WebApp.Controllers
         /// </summary>
         /// <param name="Id">ID primary key of restaurant to find reviews for</param>
         /// <returns>list of reviews for given restaurant</returns>
-        public IActionResult Reviews(int Id)
+        public IActionResult Reviews(int restaurantId)
         {
             TempData.Remove("redirectController");
             TempData.Remove("redirectView");
-            List<Review> reviews = _repo.FindRatingsByRestaurantId(Id);
-            Restaurant restaurant = _repo.GetRestaurantById(Id);
+            Restaurant restaurant = _repo.GetRestaurantById(restaurantId, true);
             ViewData["Restaurant"] = restaurant.Name;
             ViewData["Address"] = restaurant.GetFullAddress();
-            decimal rating = AverageRating(reviews);
-            if(rating == -1)
+  
+            if(restaurant.avgStars == -1)
             {
                 ViewData["Rating"] = "-";
             }
             else
             {
-                ViewData["Rating"] = rating;
+                ViewData["Rating"] = restaurant.avgStars;
             }
              
             TempData["RestaurantId"] = restaurant.Id;
             TempData.Keep("RestaurantId");
             TempData.Keep("CurrentUserId");
             TempData.Keep("IsAdmin");
-            return View(reviews);
-        }
-
-        /// <summary>
-        /// calculate the average rating of a restaurant
-        /// </summary>
-        /// <param name="reviews">list of reviews</param>
-        /// <returns>decimal </returns>
-        public decimal AverageRating(List<Review> reviews)
-        {
-            decimal avg = 0;
-            int count = reviews.Count;
-            if(count == 0)
-            {
-                return -1;
-            }
-            foreach(Review review in reviews)
-            {
-                avg += review.Stars;
-            }
-            avg = avg / count;
-            avg = Decimal.Round(avg, 2);
-            return avg;
+            return View(restaurant.reviews);
         }
 
         /// <summary>
@@ -144,7 +121,7 @@ namespace RestaurantReviews.WebApp.Controllers
         [HttpGet]
         public IActionResult LeaveReview()
         {
-            TempData["RestaurantName"] = _repo.GetRestaurantById((int)TempData["RestaurantId"]).Name;
+            TempData["RestaurantName"] = _repo.GetRestaurantById((int)TempData["RestaurantId"], false).Name;
             TempData.Keep("RestaurantName");
             TempData.Keep("RestaurantId");
             if(TempData["CurrentUserId"] is null)
@@ -197,7 +174,7 @@ namespace RestaurantReviews.WebApp.Controllers
                     Log.Fatal(e, "Unexpected Error When Wrtiting to Database");
                     return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Writing to to Database" });
                 }
-                return RedirectToAction("Reviews", new { id = restaurantId });
+                return RedirectToAction("Reviews", new { restaurantId = restaurantId });
             }
             else
             {
@@ -344,7 +321,7 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             TempData.Keep("IsAdmin");
             TempData.Keep("CurrentUserId");
-            return RedirectToAction("Reviews", new { id = newReview.RestaurantId });
+            return RedirectToAction("Reviews", new { restaurantId = newReview.RestaurantId });
         }
 
         /// <summary>
@@ -431,7 +408,7 @@ namespace RestaurantReviews.WebApp.Controllers
             {
                 try
                 {
-                    _repo.DeleteRestaurant(_repo.GetRestaurantById(id));
+                    _repo.DeleteRestaurant(_repo.GetRestaurantById(id, false));
                     Log.Information($"Deleted restaurant with Id of {id}");
                 }
                 catch (Exception e)
@@ -458,7 +435,7 @@ namespace RestaurantReviews.WebApp.Controllers
         public IActionResult ReviewDetails(Review review)
         {
             string name = _repo.GetCustomerById(review.CustomerId).Name;
-            Restaurant restaurant = _repo.GetRestaurantById(review.RestaurantId);
+            Restaurant restaurant = _repo.GetRestaurantById(review.RestaurantId,false);
             string restaurantString = $"{restaurant.Name}:   {restaurant.Address}";
             ViewData["name"] = name;
             ViewData["restaurant"] = restaurantString;

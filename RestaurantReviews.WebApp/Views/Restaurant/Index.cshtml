@@ -27,29 +27,51 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.avgStars)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address), @Html.DisplayFor(modelItem => item.Zip)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address), @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+            <td>
+                @if (item.avgStars != -1)
+                {
+                    @Html.DisplayFor(modelItem => item.avgStars)
+                }
+                else
+                {
+                    <text>-</text>
+                }
+                <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
+            </td>
+            <td>
+                @Html.ActionLink("Reviews", "Reviews", new { restaurantId = item.Id })
 
-                <td>
-                    @Html.ActionLink("Reviews", "Reviews", new { Id = item.Id })
-                    
-                    @if (TempData["IsAdmin"] != null)
-                    {
-                        <span>| </span>@Html.ActionLink("Delete", "DeleteRestaurant", item)
-                    }
-                </td>
-            </tr>
-        }
+                @if (TempData["IsAdmin"] != null)
+                {
+                    @Html.ActionLink("Delete", "DeleteRestaurant", item)
+                }
+            </td>
+        </tr>
+            <tr>
+                @for (int i = 0; i < 3; i++)
+                {
+                    if (i >= item.reviews.Count) { break; }
+                    <td>@item.reviews[i].textReview     |
+                        @item.reviews[i].Stars <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20"></td>
+
+                }
+        </tr>
+    }
     </tbody>
 </table>

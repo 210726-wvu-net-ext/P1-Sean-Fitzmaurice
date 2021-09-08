@@ -15,14 +15,18 @@ namespace RestaurantReviews.WebApp.Models
     public class CreatedRestaurant : IValidatableObject
     {
         [Required]
+        [MinLength(3)]
+        [MaxLength(40)]
         public string Name { get; set; }
         [Required]
         [DisplayName("Street Number")]
         public int StreetNumber { get; set; }
         [Required]
+        [MaxLength(40)]
         [DisplayName("Street")]
         public string StreetName { get; set; }
         [Required]
+        [MaxLength(40)]
         public string City { get; set; }
         [Required]
         [DisplayName("State/Province")]
@@ -62,10 +66,6 @@ namespace RestaurantReviews.WebApp.Models
             Name = Capitalize(Name);
             StreetName = Capitalize(StreetName);
             City = Capitalize(City);
-            if (this.Name.Length > 100)
-            {
-                results.Add(new ValidationResult("Name is too long, maximum 100 characters"));
-            }
             if ((this.StreetNumber.ToString().Length + this.StreetName.Length +this.City.Length+this.State.Length) > 100)
             {
                 results.Add(new ValidationResult("Address is too long, maximum 100 characters"));

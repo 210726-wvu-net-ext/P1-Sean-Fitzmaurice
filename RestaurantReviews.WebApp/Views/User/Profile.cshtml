@@ -31,7 +31,7 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Show all Reviews", "ShowReviews", new { id = (int)TempData["customerId"] })
-    <span>| </span>
+    @Html.ActionLink("Home", "Index", "Home") |
+    @Html.ActionLink("Show all Reviews", "ShowReviews", new { id = (int)TempData["customerId"] }) |
     <a asp-action="Logout">Logout</a>
 </div>

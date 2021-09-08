@@ -18,6 +18,7 @@ namespace RestaurantReviews.WebApp.Models
         [DisplayName("Rating")]
         public decimal Stars { get; set; }
         [Required]
+        [MaxLength(300)]
         [DisplayName("Comment")]
         public string textReview { get; set; }
 
@@ -39,10 +40,6 @@ namespace RestaurantReviews.WebApp.Models
             if (this.Stars > 5 || this.Stars < 0)
             {
                 results.Add(new ValidationResult("Rating out of bounds!"));
-            }
-            if (this.textReview.Length > 300)
-            {
-                results.Add(new ValidationResult("Review is too long, maximum 300 characters"));
             }
 
             return results;

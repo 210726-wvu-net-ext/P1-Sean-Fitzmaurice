@@ -15,6 +15,7 @@ namespace RestaurantReviews.WebApp.Models
     {
         [Required]
         [MinLength(3)]
+        [MaxLength (30)]
         [DisplayName("Username")]
         public string Name { get; set; }
         [Required]
@@ -23,13 +24,16 @@ namespace RestaurantReviews.WebApp.Models
         public string Pass { get; set; }
         [Required]
         [MinLength(5)]
+        [MaxLength(40)]
         [DisplayName("Confirm Password")]
         public string ConfirmPass { get; set; }
         [Phone]
         [Required]
+        [MaxLength(14)]
         public string Phone { get; set; }
         [EmailAddress]
         [Required]
+        [MaxLength(100)]
         public string Email { get; set; }
         
         /// <summary>
@@ -58,22 +62,6 @@ namespace RestaurantReviews.WebApp.Models
             if (this.Pass != this.ConfirmPass)
             {
                 results.Add(new ValidationResult("Passwords do not match"));
-            }
-            if(this.Pass.Length > 100)
-            {
-                results.Add(new ValidationResult("Password is too long, maximum 100 characters"));
-            }
-            if (this.Name.Length > 100)
-            {
-                results.Add(new ValidationResult("Name is too long, maximum 100 characters"));
-            }
-            if (this.Phone.Length > 14)
-            {
-                results.Add(new ValidationResult("Phone number is too long, maximum 14 characters"));
-            }
-            if (this.Email.Length > 100)
-            {
-                results.Add(new ValidationResult("Email is too long, maximum 100 characters"));
             }
 
             return results;

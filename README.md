@@ -4,7 +4,7 @@ Project 1 Repository, MVC restaurant reviews
 
 Funcitonality
 
-Asp .Net Core
+
 
 -Look at restuarnats, their reviews, their avereage rating
 
@@ -17,4 +17,15 @@ Asp .Net Core
 -Edit reviews
 
 -Admin functionality
+
+
+Tech
+
+-C#
+
+-Asp .Net Core
+
+-SQL
+
+-xUnit
 

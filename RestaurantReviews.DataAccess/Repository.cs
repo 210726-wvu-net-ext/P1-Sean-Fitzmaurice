@@ -59,6 +59,7 @@ namespace RestaurantReviews.DataAccess
             foreach(Domain.Restaurant restaurant in query)
             {
                 restaurant.reviews  = FindRatingsByRestaurantId(restaurant.Id);
+                restaurant.calcAvg();
             }
 
             return query;
@@ -78,6 +79,7 @@ namespace RestaurantReviews.DataAccess
             foreach (Domain.Restaurant restaurant in query)
             {
                 restaurant.reviews = FindRatingsByRestaurantId(restaurant.Id);
+                restaurant.calcAvg();
             }
 
             return query;

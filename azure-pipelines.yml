@@ -32,17 +32,4 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-stages: 
-- stage: build
-  jobs:
-  - job: build
-    
-    steps:
 
-    - script: dotnet build --configuration Release
-      displayName: dotnet build
-      workingDirectory: $(solution)
-
-    - script: dotnet test --configuration Release
-      displayName: dotnet test
-      workingDirectory: $(solution)

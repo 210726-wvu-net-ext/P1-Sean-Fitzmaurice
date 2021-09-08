@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using RestaurantReviews.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using RestaurantReviews.Domain;
+using Serilog;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
@@ -15,7 +15,7 @@ namespace RestaurantReviews.WebApp.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
         private readonly IRepository _repo;
 
         /// <summary>
@@ -23,9 +23,9 @@ namespace RestaurantReviews.WebApp.Controllers
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="repo"></param>
-        public HomeController(ILogger<HomeController> logger, IRepository repo)
+        public HomeController( IRepository repo)
         {
-            _logger = logger;
+            
             _repo = repo;
 
         }
@@ -36,8 +36,8 @@ namespace RestaurantReviews.WebApp.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            
-
+            TempData.Remove("redirectController");
+            TempData.Remove("redirectView");
             return View();
         }
 

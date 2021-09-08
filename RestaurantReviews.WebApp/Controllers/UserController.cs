@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using RestaurantReviews.Domain;
 using RestaurantReviews.WebApp.Models;
+using Serilog;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace RestaurantReviews.WebApp.Controllers
         public UserController(IRepository repo)
         {
             _repo = repo;
-
+            
         }
 
         /// <summary>
@@ -94,8 +95,17 @@ namespace RestaurantReviews.WebApp.Controllers
                 ModelState.AddModelError(key:"Name", errorMessage: "Username is already taken");
                 return View(viewModel);
             }
-            Customer customer = new Customer(viewModel.Name, viewModel.Pass, viewModel.Phone, viewModel.Email, null);
-            _repo.AddCustomer(customer);
+            Customer customer = new Customer(viewModel.Name, viewModel.Pass,  viewModel.Phone, viewModel.Email, null);
+            try
+            {
+                _repo.AddCustomer(customer);
+                Log.Information($"Created User {viewModel.Name}");
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Unexpected Error When Writing to Database");
+                return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Writing to Database" });
+            }
             Customer newCustomer = _repo.GetCustomer(customer.Name);
             TempData["CurrentUserId"] = newCustomer.Id;
             TempData.Keep("IsAdmin");
@@ -184,8 +194,16 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             if(password == _repo.GetCustomerById((int)TempData["CurrentUserId"]).Pass && id == (int)TempData["ToDeleteId"])
             {
-                
-                _repo.DeleteUser(_repo.GetCustomerById(id));
+                try
+                {
+                    _repo.DeleteUser(_repo.GetCustomerById(id));
+                    Log.Information($"Deleted User with Id of {id}");
+                }
+                catch (Exception e)
+                {
+                    Log.Fatal(e, "Unexpected Error When Deleting from Database");
+                    return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Deleting from Database" });
+                }
                 TempData.Keep("IsAdmin");
                 TempData.Keep("CurrentUserId");
                 TempData.Remove("ToDeleteId");

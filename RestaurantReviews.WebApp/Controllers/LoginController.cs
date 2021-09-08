@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RestaurantReviews.Domain;
+using Serilog;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
@@ -13,6 +14,7 @@ namespace RestaurantReviews.WebApp.Controllers
     public class LoginController : Controller
     {
         private readonly IRepository _repo;
+        
         /// <summary>
         /// initializes creation of repo
         /// </summary>
@@ -50,8 +52,9 @@ namespace RestaurantReviews.WebApp.Controllers
             {
                 if (customer.Pass == pass)
                 {
+                    Log.Information($"User ID {customer.Id} successfully logged in");
                     //login success
-                    if(customer.Admin != null)
+                    if (customer.Admin != null)
                     {
                         TempData["IsAdmin"] = 1;
                     }
@@ -69,6 +72,7 @@ namespace RestaurantReviews.WebApp.Controllers
                         TempData.Keep("RestaurantId");
                         return RedirectToAction((string)TempData["redirectView"], (string)TempData["redirectController"]);
                     }
+                    
                     return RedirectToAction("Index", "Home");
                 }
                 else

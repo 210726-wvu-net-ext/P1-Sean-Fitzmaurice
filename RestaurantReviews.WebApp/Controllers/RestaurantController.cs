@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RestaurantReviews.Domain;
 using RestaurantReviews.DataAccess;
 using RestaurantReviews.WebApp.Models;
+using Serilog;
 
 namespace RestaurantReviews.WebApp.Controllers
 {
@@ -22,6 +23,7 @@ namespace RestaurantReviews.WebApp.Controllers
         /// <param name="repo"></param>
         public RestaurantController(IRepository repo)
         {
+            
             _repo = repo;
 
         }
@@ -32,6 +34,8 @@ namespace RestaurantReviews.WebApp.Controllers
         /// <returns>view containing all restaurants in DB</returns>
         public IActionResult Index()
         {
+            TempData.Remove("redirectController");
+            TempData.Remove("redirectView");
             return View(_repo.SearchRestaurantsName(""));
         }
 
@@ -54,6 +58,8 @@ namespace RestaurantReviews.WebApp.Controllers
         [HttpPost]
         public IActionResult Search(string searchString)
         {
+            TempData.Remove("redirectController");
+            TempData.Remove("redirectView");
             List<Restaurant> Restaurants;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -86,6 +92,8 @@ namespace RestaurantReviews.WebApp.Controllers
         /// <returns>list of reviews for given restaurant</returns>
         public IActionResult Reviews(int Id)
         {
+            TempData.Remove("redirectController");
+            TempData.Remove("redirectView");
             List<Review> reviews = _repo.FindRatingsByRestaurantId(Id);
             Restaurant restaurant = _repo.GetRestaurantById(Id);
             ViewData["Restaurant"] = restaurant.Name;
@@ -179,7 +187,16 @@ namespace RestaurantReviews.WebApp.Controllers
                 int userId = (int)TempData["CurrentUserId"];
                 int restaurantId = (int)TempData["RestaurantId"];
                 Review review = new Review(viewModel.Stars, userId, restaurantId, viewModel.textReview);
-                _repo.LeaveReview(review);
+                try
+                {
+                    _repo.LeaveReview(review);
+                    Log.Information("Left Review");
+                }
+                catch (Exception e)
+                {
+                    Log.Fatal(e, "Unexpected Error When Wrtiting to Database");
+                    return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Writing to to Database" });
+                }
                 return RedirectToAction("Reviews", new { id = restaurantId });
             }
             else
@@ -245,11 +262,19 @@ namespace RestaurantReviews.WebApp.Controllers
             int id = (int)TempData["ToDeleteId"];
             if (password == _repo.GetCustomerById((int)TempData["CurrentUserId"]).Pass)
             {
-
-                _repo.DeleteReview(_repo.GetReviewById(id));
-                TempData.Keep("IsAdmin");
-                TempData.Keep("CurrentUserId");
-                TempData.Remove("ToDeleteId");
+                try
+                {
+                    _repo.DeleteReview(_repo.GetReviewById(id));
+                    Log.Information($"Deleted Review with Id of {id}");
+                    TempData.Keep("IsAdmin");
+                    TempData.Keep("CurrentUserId");
+                    TempData.Remove("ToDeleteId");
+                }
+                catch(Exception e)
+                {
+                    Log.Fatal(e, "Unexpected Error When Deleting from Database");
+                    return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Deleting from Database" });
+                }
             }
             else
             {
@@ -306,8 +331,17 @@ namespace RestaurantReviews.WebApp.Controllers
             newReview.Stars = viewModel.Stars;
             newReview.textReview = viewModel.textReview;
             newReview.Date = DateTime.Now;
-            _repo.DeleteReview(oldReview);
-            _repo.LeaveReview(newReview);
+            try
+            {
+                _repo.DeleteReview(oldReview);
+                _repo.LeaveReview(newReview);
+                Log.Information($"Edited Review with Id of {newReview.Id}");
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Unexpected Error When Deleting/Writing from Database");
+                return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Deleting/Writing from Database" });
+            }
             TempData.Keep("IsAdmin");
             TempData.Keep("CurrentUserId");
             return RedirectToAction("Reviews", new { id = newReview.RestaurantId });
@@ -344,7 +378,16 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             string address = $"{viewModel.StreetNumber} {viewModel.StreetName}, {viewModel.City} {viewModel.State}";
             Restaurant newRestaurant = new Restaurant(viewModel.Name, address, viewModel.Zip);
-            _repo.AddRestaurant(newRestaurant);
+            try
+            {
+                _repo.AddRestaurant(newRestaurant);
+                Log.Information($"Created new Restaurant");
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Unexpected Error When Writing to Database");
+                return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Wrtiting to Database" });
+            }
             return RedirectToAction( "Index", "Restaurant");
         }
         
@@ -386,8 +429,16 @@ namespace RestaurantReviews.WebApp.Controllers
             }
             if (password == _repo.GetCustomerById((int)TempData["CurrentUserId"]).Pass && id == (int)TempData["ToDeleteId"])
             {
-
-                _repo.DeleteRestaurant(_repo.GetRestaurantById(id));
+                try
+                {
+                    _repo.DeleteRestaurant(_repo.GetRestaurantById(id));
+                    Log.Information($"Deleted restaurant with Id of {id}");
+                }
+                catch (Exception e)
+                {
+                    Log.Fatal(e, "Unexpected Error When Deleting from Database");
+                    return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Deleting from Database" });
+                }
                 TempData.Keep("IsAdmin");
                 TempData.Keep("CurrentUserId");
                 TempData.Remove("ToDeleteId");

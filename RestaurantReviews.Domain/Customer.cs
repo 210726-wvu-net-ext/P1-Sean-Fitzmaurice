@@ -13,7 +13,7 @@ namespace RestaurantReviews.Domain
     {
         public Customer() { }
 
-        public Customer(string name, string pass, string email, string phone, bool? admin)
+        public Customer(string name, string pass, string phone, string email, bool? admin)
         {
             this.Pass = pass;
             this.Name = name;
@@ -21,7 +21,7 @@ namespace RestaurantReviews.Domain
             this.Email = email;
             this.Admin = admin;
         }
-        public Customer(int id, string name, string pass, string email, string phone, bool? admin)
+        public Customer(int id, string name, string pass, string phone, string email, bool? admin)
         {
             this.Id = id;
             this.Pass = pass;

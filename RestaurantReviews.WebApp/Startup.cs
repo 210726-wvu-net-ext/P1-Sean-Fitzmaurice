@@ -12,6 +12,7 @@ using RestaurantReviews.Domain;
 using RestaurantReviews.DataAccess.Entities;
 using RestaurantReviews.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 
 namespace RestaurantReviews.WebApp
@@ -41,7 +42,6 @@ namespace RestaurantReviews.WebApp
             services.AddDbContext<RestaurantReviewContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("RestaurantDB"));
-                options.LogTo(Console.WriteLine);
             });
             services.AddControllersWithViews();
         }

@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F4887FF-8F45-4CE5-9E36-CC6D6DB96133}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
+		logs\restuarantlogs20210907.txt = logs\restuarantlogs20210907.txt
 	EndProjectSection
 EndProject
 Global

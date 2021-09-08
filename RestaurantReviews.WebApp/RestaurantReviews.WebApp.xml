@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RestaurantReviews.WebApp</name>
+    </assembly>
+    <members>
+        <member name="T:RestaurantReviews.WebApp.Controllers.ErrorController">
+            <summary>
+            controller for showing error messages
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.ErrorController.Error(System.String)">
+            <summary>
+            Action method for showing errors to user
+            </summary>
+            <param name="message">error message for showing user</param>
+            <returns>view displaying error message</returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Controllers.HomeController">
+            <summary>
+            Controller for home page
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.HomeController.#ctor(RestaurantReviews.Domain.IRepository)">
+            <summary>
+            constuctor which initializes repo and logger
+            </summary>
+            <param name="logger"></param>
+            <param name="repo"></param>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.HomeController.Index">
+            <summary>
+            Home index view
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.HomeController.Privacy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Controllers.LoginController">
+            <summary>
+            Login controller for handling login attempts by a user
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.LoginController.#ctor(RestaurantReviews.Domain.IRepository)">
+            <summary>
+            initializes creation of repo
+            </summary>
+            <param name="repo"></param>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.LoginController.Login(System.String)">
+            <summary>
+            Login Action get
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.LoginController.Login(System.String,System.String)">
+            <summary>
+            Login action post, get user by entered customer Name and checks to see if entered password matches 
+            if successful, uses TempData to track user ID and if user is an admin
+            </summary>
+            <param name="Name">entered name by user</param>
+            <param name="pass">entered password by user</param>
+            <returns>a view depending on what success of login</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.LoginController.Register">
+            <summary>
+            redirects user to user controller, to create a new customer
+            </summary>
+            <returns>Action method for register in User controller</returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Controllers.RestaurantController">
+            <summary>
+            restaurant controller handles most views having to do restaurants and reviews
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.#ctor(RestaurantReviews.Domain.IRepository)">
+            <summary>
+            initializes creation of crpo
+            </summary>
+            <param name="repo"></param>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.Index">
+            <summary>
+            index action for restaurant controller, shows all restaurants in database in list
+            </summary>
+            <returns>view containing all restaurants in DB</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.Search">
+            <summary>
+            search action get
+            </summary>
+            <returns>view containing search</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.Search(System.String)">
+            <summary>
+            search action post, takes string entered by user in search bar, if entered string can be converted to int, assumes search for zip
+            if it cannot, searches restaurants by both 'Address' and 'Name' columns in DB, combines returned lists and takes out duplicates
+            </summary>
+            <param name="searchString">entered search string by user</param>
+            <returns>list of objects which match the entered search criteria</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.Reviews(System.Int32)">
+            <summary>
+            shows all reviews for a given restaurant passed restaurant name and address through viewdata
+            </summary>
+            <param name="Id">ID primary key of restaurant to find reviews for</param>
+            <returns>list of reviews for given restaurant</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.LeaveReview">
+            <summary>
+            leave review action get, redirects the user to login page if they are not logged in, redirects user to edit if they already have a review
+            </summary>
+            <returns>view containing form for review</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.LeaveReview(RestaurantReviews.WebApp.Models.CreatedReview)">
+            <summary>
+            leave review action post, if textReview field is left empty, automatically fills it with base comment, checks if review is valid, and if so, adds it to DB through repo
+            </summary>
+            <param name="viewModel">the validatible version of a review object</param>
+            <returns>reviews page if left review is valid, returns the same view if not valid</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.CustomerHasReview(System.Int32,System.Int32)">
+            <summary>
+            checks if logged in customer has a review already for a restaurant
+            </summary>
+            <param name="customerId">PK ID of given in user</param>
+            <param name="restaurantId">PK ID of given restaurant</param>
+            <returns>returns a review object, if they do have an old review, returns that, otherwise returns new review object</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.DeleteReview(RestaurantReviews.Domain.Review)">
+            <summary>
+            get action for deleteing a review, checks if logged in user is an admin, or is the user who left the review
+            </summary>
+            <param name="deleteReview">the review being deleted</param>
+            <returns>delete view displaying review objects details</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.DeleteReview(System.String)">
+            <summary>
+            post action for deleting reviews, checks if password matches logged in user, if they do, removes it from DB using repo
+            </summary>
+            <param name="password">password entered by user</param>
+            <returns>restaurant index if succesful, returns same view if password does not match</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.EditReview(RestaurantReviews.Domain.Review)">
+            <summary>
+            get action for editing a review, creates validatible review object which takes information from old review
+            </summary>
+            <param name="viewModel">the review being edited</param>
+            <returns>view displaying validatible review object</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.EditReview(RestaurantReviews.WebApp.Models.CreatedReview)">
+            <summary>
+            post action for editing a review, checks if new review is valid, transfers uneditible information from old review to new review, deletes
+            old review and finally adds new review to DB using review
+            </summary>
+            <param name="viewModel"></param>
+            <returns>redirection to list of reviews for a given restaurant if valid, same view if new review is not valid</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.CreateRestaurant">
+            <summary>
+            get action for creating a restaurant, checks if user is logged in, redircts fto login page if not
+            </summary>
+            <returns>view containing form for restaurant information</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.CreateRestaurant(RestaurantReviews.WebApp.Models.CreatedRestaurant)">
+            <summary>
+            checks if restaurant is valid, creates domain object from validatible one if valid and passes it to repo for entry into DB
+            </summary>
+            <param name="viewModel">entered user infromation, in validatible restaurant</param>
+            <returns>restaurant index if valid, same view if not valid</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.DeleteRestaurant(RestaurantReviews.Domain.Restaurant)">
+            <summary>
+            get action for deleting a restaurant, checks if user is admin
+            </summary>
+            <param name="deleteRestaurant">restaurant object to be removed from DB</param>
+            <returns>returns view with restaurant to be deleted info if admin, if not admin returns error page</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.DeleteRestaurant(System.String,System.String)">
+            <summary>
+            post action for deleting restaurant, checks if entered password and ID match
+            </summary>
+            <param name="toDeleteId">ID of restaurant to be deleted</param>
+            <param name="password">password of logged in admin</param>
+            <returns>error page if password or ID does not match, restaurant index if dletion is successful</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.RestaurantController.ReviewDetails(RestaurantReviews.Domain.Review)">
+            <summary>
+            details action page for a given review
+            </summary>
+            <param name="review">review to show details for</param>
+            <returns>view with detials on given review</returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Controllers.UserController">
+            <summary>
+            Controller for user management
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.#ctor(RestaurantReviews.Domain.IRepository)">
+            <summary>
+            initilizes the repo
+            </summary>
+            <param name="repo"></param>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.Profile">
+            <summary>
+            action for viewing profile of logged in user
+            </summary>
+            <returns>view containing detila of logged in user</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.Details(RestaurantReviews.Domain.Customer)">
+            <summary>
+            action for viewing details for admin view
+            </summary>
+            <param name="customer">customer to be viewed</param>
+            <returns>view containing details of user</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.Register">
+            <summary>
+            get action for registering a new user
+            </summary>
+            <returns>view of from for registering new user</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.Register(RestaurantReviews.WebApp.Models.CreatedCustomer)">
+            <summary>
+            post action for creation of new user, checks to see if entered information is valid and that name is not a duplicate
+            if successul automatically logs user in with use of TempData
+            </summary>
+            <param name="viewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.Logout">
+            <summary>
+            action method for logging out, removes IsAdmin and userID from dictionary
+            </summary>
+            <returns>home index</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.Search(System.String)">
+            <summary>
+            search user action checks if user is an admin
+            </summary>
+            <param name="searchString">string to search</param>
+            <returns>view of users matching search criteria</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.deleteUser(RestaurantReviews.Domain.Customer)">
+            <summary>
+            get action for deleting a user, checks if user is an admin
+            </summary>
+            <param name="deleteCustomer">customer object to delete</param>
+            <returns>view displaying detials of customer being deleted</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.deleteUser(System.String,System.String)">
+            <summary>
+            post action for deletion of customer, checks if password and ID entered matches
+            </summary>
+            <param name="toDeleteId">PK Id of user to be delted</param>
+            <param name="password">password of logged in admin</param>
+            <returns>if successful returns to user search, if not returns error page and aborts deltion</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Controllers.UserController.ShowReviews(System.Int32)">
+            <summary>
+            show all reviews for a given user
+            </summary>
+            <param name="id">PK ID of user to display review of</param>
+            <returns>view containing a lis tof reviews by the given user</returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Models.CreatedCustomer">
+            <summary>
+            validitible customer model
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Models.CreatedCustomer.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            validation method, checks if passwords entered match, checks if varchars are not too long
+            </summary>
+            <param name="validationContext"></param>
+            <returns>validation checks list</returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Models.CreatedRestaurant">
+            <summary>
+            validatible restuarant object, breaks down address string into individual fields so they can each be
+            validated seperately, and combined into address later
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Models.CreatedRestaurant.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            validation method, checks if address will be valid varchar, checks if name is valid varchar, capitalizes individual compnents of address
+            </summary>
+            <param name="validationContext"></param>
+            <returns>validation list</returns>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Models.CreatedRestaurant.Capitalize(System.String)">
+            <summary>
+            method used to capitalize every seperate word in a string
+            </summary>
+            <param name="str">string to be capitalized</param>
+            <returns>capitalized string</returns>
+        </member>
+        <member name="T:RestaurantReviews.WebApp.Models.CreatedReview">
+            <summary>
+            validateible review class
+            </summary>
+        </member>
+        <member name="M:RestaurantReviews.WebApp.Models.CreatedReview.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            validation method, checks if stars rating is in bounds, checks if varchar will not be too long
+            </summary>
+            <param name="validationContext"></param>
+            <returns>validation results list</returns>
+        </member>
+    </members>
+</doc>

@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace RestaurantReviews.Domain
 {
     /// <summary>
-    /// Restaurant Model containing fields ID name address and zip, constuctor with ID should only be used in repo and edit review
+    /// Restaurant Model containing fields ID name address and zip, constuctor with ID should only be used in repo and edit review. fields reviews and avgstars are only used when needed, and therefore not in constructor
     /// </summary>
     public class Restaurant
     {
@@ -41,5 +41,39 @@ namespace RestaurantReviews.Domain
         public string Name { get; set; }
         public string Address { get; set; }
         public int Zip { get; set; }
+        public List<Review> reviews { get; set; }
+        [DisplayName("Average Rating")]
+        public decimal avgStars { get; set; }
+        /// <summary>
+        /// calculate average rating of all reviews for this restaurant
+        /// </summary>
+        public void calcAvg()
+        {
+            decimal avg = 0;
+            if (reviews != null)
+            {
+                int count = reviews.Count;
+                if (count == 0)
+                {
+                    this.avgStars = -1;
+                }
+                else
+                {
+                    foreach (Review review in reviews)
+                    {
+                        avg += review.Stars;
+                    }
+                    avg = avg / count;
+                    avg = Decimal.Round(avg, 2);
+                    this.avgStars = avg;
+                }
+            }
+            else
+            {
+                this.avgStars = -1;
+            }
+            
+
+        }
     }
 }

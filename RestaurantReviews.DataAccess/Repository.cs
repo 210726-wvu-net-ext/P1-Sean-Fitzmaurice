@@ -35,7 +35,12 @@ namespace RestaurantReviews.DataAccess
                 Restaurant => new Domain.Restaurant(Restaurant.Id, Restaurant.Name, Restaurant.Address, Restaurant.Zip)
             ).ToList();
             List<Domain.Restaurant> query = list.Where(Restaurant => Restaurant.Name.ToLower().Contains(name.ToLower())).ToList();
-
+            foreach (Domain.Restaurant restaurant in query)
+            {
+                restaurant.reviews = FindRatingsByRestaurantId(restaurant.Id);
+                restaurant.calcAvg();
+            }
+            
 
             return query;
         }
@@ -51,7 +56,10 @@ namespace RestaurantReviews.DataAccess
                 Restaurant => new Domain.Restaurant(Restaurant.Id, Restaurant.Name, Restaurant.Address, Restaurant.Zip)
             ).ToList();
             List<Domain.Restaurant> query = list.Where(Restaurant => Restaurant.Address.ToLower().Contains(address.ToLower())).ToList();
-
+            foreach(Domain.Restaurant restaurant in query)
+            {
+                restaurant.reviews  = FindRatingsByRestaurantId(restaurant.Id);
+            }
 
             return query;
         }
@@ -67,7 +75,10 @@ namespace RestaurantReviews.DataAccess
                 Restaurant => new Domain.Restaurant(Restaurant.Id, Restaurant.Name, Restaurant.Address, Restaurant.Zip)
             ).ToList();
             List<Domain.Restaurant> query = list.Where(Restaurant => Restaurant.Zip == zip).ToList();
-
+            foreach (Domain.Restaurant restaurant in query)
+            {
+                restaurant.reviews = FindRatingsByRestaurantId(restaurant.Id);
+            }
 
             return query;
         }
@@ -279,12 +290,19 @@ namespace RestaurantReviews.DataAccess
         /// </summary>
         /// <param name="Id">Id of restaurant</param>
         /// <returns>restaurant with matching primary key, new restaurant object if none exists</returns>
-        public Domain.Restaurant GetRestaurantById(int Id)
+        public Domain.Restaurant GetRestaurantById(int Id, bool needReviews)
         {
             Entities.Restaurant foundRestaurant = _context.Restaurants
                 .FirstOrDefault(restaurant => restaurant.Id == Id);
             if (foundRestaurant != null)
             {
+                if(needReviews == true)
+                {
+                    Domain.Restaurant restaurant = new Domain.Restaurant(foundRestaurant.Id, foundRestaurant.Name, foundRestaurant.Address, foundRestaurant.Zip);
+                    restaurant.reviews = FindRatingsByRestaurantId(restaurant.Id);
+                    restaurant.calcAvg();
+                    return restaurant;
+                }
                 return new Domain.Restaurant(foundRestaurant.Id, foundRestaurant.Name, foundRestaurant.Address, foundRestaurant.Zip);
             }
             return new Domain.Restaurant();

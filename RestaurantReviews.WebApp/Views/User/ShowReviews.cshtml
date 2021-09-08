@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Show Reviews";
+
 }
 
 <h1>Show Customer's'Reviews</h1>
@@ -9,6 +10,8 @@
 <table class="table">
     <thead>
         <tr>
+            @if (ViewData["ShowIds"] != null)
+            {
             <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>
@@ -18,8 +21,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.RestaurantId)
             </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Stars)
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.textReview)
@@ -30,33 +35,37 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stars)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.textReview)
-            </td>
-            <td>
-                @if ((int)TempData["CurrentUserId"] == (int)TempData["customerId"])
-                {
-                    @Html.ActionLink("Edit", "EditReview", "Restaurant", new {  id=item.Id })<span> | </span>
-                }
-                @if ((int)TempData["CurrentUserId"] == (int)TempData["customerId"] || TempData["IsAdmin"] != null)
-                {
-                @Html.ActionLink("Delete", "DeleteReview","Restaurant",  new {  id=item.Id  })
-                }
+            @if (ViewData["ShowIds"] != null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RestaurantId)
+                </td>
+            }
+        <td>
+            @Html.DisplayFor(modelItem => item.Stars)
+            <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
+        </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.textReview)
+                </td>
+                <td>
+                    @if ((int)TempData["CurrentUserId"] == (int)TempData["customerId"])
+                    {
+                        @Html.ActionLink("Edit", "EditReview", "Restaurant", new { id = item.Id })<span> | </span>
+                    }
+                    @if ((int)TempData["CurrentUserId"] == (int)TempData["customerId"] || TempData["IsAdmin"] != null)
+                    {
+                        @Html.ActionLink("Delete", "DeleteReview", "Restaurant", new { id = item.Id })
+                    }
 
-            </td>
-        </tr>
+                </td>
+            </tr>
 }
     </tbody>
 </table>

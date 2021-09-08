@@ -10,33 +10,25 @@
     <hr />
     <dl class="row">
 
-        <dt class="col-sm-2">
-            Customer
-        </dt>
-        <dd class="col-sm-10">
-            @ViewData["name"]
-        </dd>
-        <dt class="col-sm-2">
-            Restaurant
-        </dt>
-        <dd class="col-sm-10">
+        <dt class="col-sm-10">
             @ViewData["restaurant"]
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stars)
         </dt>
+        
+
+        <dd class="col-sm-10">
+            @ViewData["name"] said:
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.textReview)
+        </dd>
+
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Stars)
             <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.textReview)
-        </dt>
+ 
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.textReview)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date)
+            Made on: @Html.DisplayFor(model => model.Date)
         </dd>
     </dl>
 </div>

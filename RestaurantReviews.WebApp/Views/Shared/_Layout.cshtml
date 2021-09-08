@@ -6,11 +6,41 @@
     <title>@ViewData["Title"] - Restaurant Reviews</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        text-light {
+            color: black;
+        }
+        body{
+            background-color: darkslategray;
+        }
+        table {
+            background-color: lightslategray;
+            border: 4px solid black;
+        }
+        thead {
+            border: 4px solid black;
+        }
+        td{
+            border:2px solid black;
+        }
+        tr {
+            border: 2px solid black;
+        }
+        input{
+            background-color:lightslategray;
+        }
+        button {
+            background-color: darkslategray;
+            color: #8083c9;
+        }
 
+
+        
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Restaurant Reviews</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,24 +50,24 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Restaurant" asp-action="Index">Restaurants</a>
+                            <a class="nav-link text-secondary" asp-area="" asp-controller="Restaurant" asp-action="Index">Restaurants</a>
                         </li>
                         @if (TempData["CurrentUserId"] is null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                                <a class="nav-link text-secondary" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                                <a class="nav-link text-secondary" asp-area="" asp-controller="User" asp-action="Register">Register</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
+                                <a class="nav-link text-secondary" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
                             </li>
                             TempData.Keep("IsAdmin");
                             TempData.Keep("CurrentUserId");
@@ -45,12 +75,12 @@
                         @if (TempData["IsAdmin"] != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Search">Search Users</a>
+                                <a class="nav-link text-secondary" asp-area="" asp-controller="User" asp-action="Search">Search Users</a>
                             </li>
                         }
                         <li class="nav-item">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-secondary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>

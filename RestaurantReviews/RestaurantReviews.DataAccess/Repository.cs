@@ -291,6 +291,7 @@ namespace RestaurantReviews.DataAccess
         /// gets a restaurant by its primary key ID
         /// </summary>
         /// <param name="Id">Id of restaurant</param>
+        /// <param name="needReviews"> if you need reviews of the restaurant your getting</param>
         /// <returns>restaurant with matching primary key, new restaurant object if none exists</returns>
         public Domain.Restaurant GetRestaurantById(int Id, bool needReviews)
         {

@@ -88,7 +88,7 @@ namespace RestaurantReviews.WebApp.Controllers
         /// <summary>
         /// shows all reviews for a given restaurant passed restaurant name and address through viewdata
         /// </summary>
-        /// <param name="Id">ID primary key of restaurant to find reviews for</param>
+        /// <param name="restaurantId">ID primary key of restaurant to find reviews for</param>
         /// <returns>list of reviews for given restaurant</returns>
         public IActionResult Reviews(int restaurantId)
         {

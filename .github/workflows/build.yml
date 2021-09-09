@@ -43,5 +43,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"210726-wvu-net-ext_P1-Sean-Fitzmaurice" /o:"210726-wvu-net-ext" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build .\RestaurantReviews.sln
+          dotnet build .\RestaurantReviews\RestaurantReviews.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

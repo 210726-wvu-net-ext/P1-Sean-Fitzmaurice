@@ -20,7 +20,15 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
+    
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SONAR_TOKEN'
+    organization: '210726-wvu-net-ext'
+    scannerMode: 'MSBuild'
+    projectKey: '37a4da14016b723b21036d321db297c0139f07a5'
+    projectName: '210726-wvu-net-ext/P1-Sean-Fitzmaurice'
+    
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -32,4 +40,25 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'Revature-Project1/*.sln'
+    feedsToUse: 'select'
+    
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+  workingDirectory: 'RestaurantReviewer'
+- task: VisualStudioTestPlatformInstaller@1
+  inputs:
+    packageFeedSelector: 'nugetOrg'
+    versionSelector: 'latestPreRelease'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud analysis'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish results on build summary'
 

@@ -46,11 +46,11 @@ steps:
     command: 'restore'
     restoreSolution: 'Revature-Project1/*.sln'
     feedsToUse: 'select'
-    
+
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  workingDirectory: 'RestaurantReviewer'
+  workingDirectory: 'RestaurantReviews.WebApp'
 - task: VisualStudioTestPlatformInstaller@1
   inputs:
     packageFeedSelector: 'nugetOrg'

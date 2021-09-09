@@ -57,9 +57,9 @@ steps:
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
-
+    
 - task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud analysis'
+  displayName: 'Run SonarCloud analysis' 
 
 - task: SonarCloudPublish@1
   displayName: 'Publish results on build summary'

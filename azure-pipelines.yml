@@ -50,7 +50,7 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  workingDirectory: 'RestaurantReviews.WebApp'
+  workingDirectory: 'P1-Sean-Fitzmaurice'
 - task: VisualStudioTestPlatformInstaller@1
   inputs:
     packageFeedSelector: 'nugetOrg'

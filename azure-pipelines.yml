@@ -12,7 +12,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: 'RestaurantReviews.sln'
+  solution: '**/RestaurantReviews/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 

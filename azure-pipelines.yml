@@ -23,13 +23,6 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
     
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SONAR_TOKEN'
-    organization: '210726-wvu-net-ext'
-    scannerMode: 'MSBuild'
-    projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
-    projectName: '210726-wvu-net-ext/P1-Sean-Fitzmaurice'
     
 - task: VSBuild@1
   inputs:
@@ -58,9 +51,5 @@ steps:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
     
-- task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud analysis' 
 
-- task: SonarCloudPublish@1
-  displayName: 'Publish results on build summary'
 

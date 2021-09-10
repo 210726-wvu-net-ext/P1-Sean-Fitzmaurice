@@ -59,20 +59,20 @@ steps:
   displayName: dotnet publish
   workingDirectory: 'RestaurantReviews'
 
-    - task: SonarCloudPrepare@1
-      displayName: sonar prepare
-      inputs:
-      #SonarCloud value set to Pipeline token name for sonar key
-        SonarCloud: 'SONAR_TOKEN'
-        organization: '210726-wvu-net-ext'
-        scannerMode: 'MSBuild'
-        projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
-        extraProperties: |
-          sonar.exclusions=**/lib/**/*
-          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
-    - script: dotnet build --configuration Release
-      displayName: dotnet build
-      workingDirectory: 'RestaurantReviews'
+- task: SonarCloudPrepare@1
+  displayName: sonar prepare
+  inputs:
+  #SonarCloud value set to Pipeline token name for sonar key
+    SonarCloud: 'SONAR_TOKEN'
+    organization: '210726-wvu-net-ext'
+    scannerMode: 'MSBuild'
+    projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
+    extraProperties: |
+      sonar.exclusions=**/lib/**/*
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
+- script: dotnet build --configuration Release
+  displayName: dotnet build
+  workingDirectory: 'RestaurantReviews'
 
 
 

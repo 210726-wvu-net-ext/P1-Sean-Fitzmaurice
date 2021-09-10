@@ -53,10 +53,10 @@ stages:
         projectName: 'P1-Sean-Fitzmaurice'
         workingDirectory: 'RestaurantReviews'
         
-    - script: dotnet build
-        inputs:
-          workingDirectory: 'RestaurantReviews'
-
+    - script: dotnet build --configuration Release
+        displayName: dotnet build
+        workingDirectory: $(solution)
+      
     - task: SonarCloudAnalyze@1
       displayName: sonar analyze
 

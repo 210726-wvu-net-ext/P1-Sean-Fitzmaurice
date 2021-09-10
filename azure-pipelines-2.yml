@@ -38,6 +38,14 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
 
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SONAR_TOKEN'
+        organization: '210726-wvu-net-ext'
+        scannerMode: 'MSBuild'
+        projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
+        projectName: '210726-wvu-net-ext'
+        
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
@@ -62,14 +70,6 @@ stages:
       inputs:
         packageFeedSelector: 'nugetOrg'
         versionSelector: 'latestPreRelease'
-
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: 'SONAR_TOKEN'
-        organization: '210726-wvu-net-ext'
-        scannerMode: 'MSBuild'
-        projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
-        projectName: '210726-wvu-net-ext'
 
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: 'dotnet build $(buildConfiguration)'

@@ -51,11 +51,12 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
         projectName: 'P1-Sean-Fitzmaurice'
-        workingDirectory: 'RestaurantReviews'
         
-    - script: dotnet build --configuration Release
-        displayName: dotnet build
-        workingDirectory: $(solution)
+        
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '''RestaurantReviews/RestaurantReviews.sln'''
       
     - task: SonarCloudAnalyze@1
       displayName: sonar analyze

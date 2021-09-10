@@ -104,7 +104,7 @@ namespace RestaurantReviews.WebApp.Controllers
             catch (Exception e)
             {
                 Log.Fatal(e, "Unexpected Error When Writing to Database");
-                return RedirectToAction("Error", "Error", new { message = "Unexpected Error When Writing to Database" });
+                return RedirectToAction("Error", "Error", new { message = "Unexpected error when writing to Database" });
             }
             Customer newCustomer = _repo.GetCustomer(customer.Name);
             TempData["CurrentUserId"] = newCustomer.Id;

@@ -69,7 +69,7 @@ stages:
         versionSelector: 'latestPreRelease'
         
     
-    - script: dotnet test --configuration Release
+    - script: dotnet test
       displayName: dotnet test
       workingDirectory: $(solution)
       

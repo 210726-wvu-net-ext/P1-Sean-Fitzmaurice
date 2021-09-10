@@ -53,9 +53,9 @@ stages:
         projectName: 'P1-Sean-Fitzmaurice'
         workingDirectory: 'RestaurantReviews'
         
-    - script: dotnet build --configuration $(buildConfiguration)
-        displayName: 'dotnet build $(buildConfiguration)'
-        workingDirectory: 'RestaurantReviews'
+    - script: dotnet build
+        inputs:
+          workingDirectory: 'RestaurantReviews'
 
     - task: SonarCloudAnalyze@1
       displayName: sonar analyze

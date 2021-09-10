@@ -27,7 +27,7 @@ stages:
       vmImage: 'windows-latest'
 
     variables:
-      solution: 'RestaurantReviews'
+      solution: 'RestaurantReviews/RestaurantReviews.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
 
@@ -51,7 +51,7 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
         projectName: 'P1-Sean-Fitzmaurice'
-        workingDirectory: $(solution)
+        workingDirectory: 'RestaurantReviews'
         
         
     - task: VSBuild@1
@@ -59,7 +59,7 @@ stages:
         solution: '$(solution)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-        workingDirectory: $(solution)
+        workingDirectory: 'RestaurantReviews'
 
     - task: VSTest@2
       displayName: 'VsTest - testAssemblies'
@@ -70,6 +70,7 @@ stages:
         codeCoverageEnabled: true
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
+        workingDirectory: 'RestaurantReviews'
 
     - task: SonarCloudAnalyze@1
       displayName: sonar analyze
@@ -83,4 +84,4 @@ stages:
         --configuration Release
         --output $(Build.StagingDirectory)
       displayName: dotnet publish
-      workingDirectory: $(solution)
+      workingDirectory: 'RestaurantReviews'

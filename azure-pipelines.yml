@@ -63,7 +63,7 @@ stages:
     - task: SonarCloudPrepare@1
       displayName: sonar prepare
       inputs:
-        SonarCloud: $(secrets.SONAR_TOKEN) 
+        SonarCloud: 'SONAR_TOKEN'
         organization: '210726-wvu-net-ext'
         scannerMode: 'MSBuild'
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'

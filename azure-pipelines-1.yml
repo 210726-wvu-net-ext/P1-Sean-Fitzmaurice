@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/RestaurantReviews/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -44,6 +44,19 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     
+- script: dotnet build --configuration Release
+  displayName: dotnet build
+  workingDirectory: 'RestaurantReviews'
+#xPlat because MS code coverage tool not good. included in xunit. Make sure to check output file type opencover in this case is all thats needed
+- script: dotnet test
+    --configuration Release
+    --collect:"XPlat Code Coverage"
+    --results-directory $(Agent.TempDirectory)
+    --
+    DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+  displayName: dotnet test
+  workingDirectory: 'RestaurantReviews'
+  
 - task: SonarCloudAnalyze@1
   displayName: 'Run SonarCloud analysis'
 

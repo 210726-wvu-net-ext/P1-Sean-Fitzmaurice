@@ -38,6 +38,11 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
 
+    - task: VisualStudioTestPlatformInstaller@1
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
+        
     - task: SonarCloudPrepare@1
       displayName: sonar prepare
       inputs:
@@ -64,11 +69,6 @@ stages:
         codeCoverageEnabled: true
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
-
-    - task: VisualStudioTestPlatformInstaller@1
-      inputs:
-        packageFeedSelector: 'nugetOrg'
-        versionSelector: 'latestPreRelease'
 
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: 'dotnet build $(buildConfiguration)'

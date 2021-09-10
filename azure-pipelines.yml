@@ -25,7 +25,7 @@ steps:
     
 - task: SonarCloudPrepare@1
   inputs:
-    SonarCloud: 'SONAR_TOKEN'
+    SonarCloud: 'secrets.SONAR_TOKEN'
     organization: '210726-wvu-net-ext'
     scannerMode: 'MSBuild'
     projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'

@@ -154,7 +154,7 @@ namespace RestaurantReviews.WebApp.Controllers
         {
             if (String.IsNullOrWhiteSpace(viewModel.textReview))
             {
-                viewModel.textReview = "User left not comment";
+                viewModel.textReview = "User left not comment.";
             }
             if (!ModelState.IsValid)
             {

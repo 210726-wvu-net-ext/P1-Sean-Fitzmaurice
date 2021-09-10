@@ -39,12 +39,14 @@ stages:
         restoreSolution: '$(solution)'
 
     - task: SonarCloudPrepare@1
+      displayName: sonar prepare
       inputs:
         SonarCloud: 'SONAR_TOKEN'
         organization: '210726-wvu-net-ext'
         scannerMode: 'MSBuild'
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
         projectName: 'P1-Sean-Fitzmaurice'
+        
         
     - task: VSBuild@1
       inputs:

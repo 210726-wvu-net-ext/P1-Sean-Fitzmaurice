@@ -11,8 +11,20 @@ namespace RestaurantReviews.Domain
     /// </summary>
     public class Review
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Review() { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reviewId"></param>
+        /// <param name="stars"></param>
+        /// <param name="customer"></param>
+        /// <param name="restaurant"></param>
+        /// <param name="textReview"></param>
+        /// <param name="leftAt"></param>
         public Review(int reviewId, decimal stars, int customer, int restaurant, string textReview, DateTime leftAt)
         {
             this.Id = reviewId;
@@ -23,6 +35,13 @@ namespace RestaurantReviews.Domain
             this.Date = leftAt;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stars"></param>
+        /// <param name="customer"></param>
+        /// <param name="restaurant"></param>
+        /// <param name="textReview"></param>
         public Review(decimal stars, int customer, int restaurant, string textReview)
         {
             this.Stars = stars;
@@ -32,12 +51,30 @@ namespace RestaurantReviews.Domain
             this.Date = DateTime.Now;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime Date{get; set;}
+        /// <summary>
+        /// 
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int CustomerId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int RestaurantId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [DisplayName("Rating")]
         public decimal Stars { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [DisplayName("Comment")]
         public string textReview { get; set; }
     }

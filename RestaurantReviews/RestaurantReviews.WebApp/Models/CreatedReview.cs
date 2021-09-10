@@ -14,9 +14,15 @@ namespace RestaurantReviews.WebApp.Models
     /// </summary>
     public class CreatedReview : IValidatableObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [DisplayName("Rating")]
         public decimal Stars { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MaxLength(300)]
         [DisplayName("Comment")]

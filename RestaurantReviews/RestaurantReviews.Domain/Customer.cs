@@ -11,8 +11,19 @@ namespace RestaurantReviews.Domain
     /// </summary>
     public class Customer
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Customer() { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="pass"></param>
+        /// <param name="phone"></param>
+        /// <param name="email"></param>
+        /// <param name="admin"></param>
         public Customer(string name, string pass, string phone, string email, bool? admin)
         {
             this.Pass = pass;
@@ -21,6 +32,15 @@ namespace RestaurantReviews.Domain
             this.Email = email;
             this.Admin = admin;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="pass"></param>
+        /// <param name="phone"></param>
+        /// <param name="email"></param>
+        /// <param name="admin"></param>
         public Customer(int id, string name, string pass, string phone, string email, bool? admin)
         {
             this.Id = id;
@@ -30,13 +50,31 @@ namespace RestaurantReviews.Domain
             this.Email = email;
             this.Admin = admin;
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [DisplayName("Username")]
         public string Name { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [DisplayName("Password")]
         public string Pass { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Phone { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Email { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public bool? Admin { get; set; }
 
     }

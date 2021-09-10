@@ -11,8 +11,15 @@ using Serilog.Events;
 
 namespace RestaurantReviews.WebApp
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -29,7 +36,11 @@ namespace RestaurantReviews.WebApp
             }
             
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             
             Host.CreateDefaultBuilder(args)

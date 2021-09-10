@@ -36,12 +36,29 @@ namespace RestaurantReviews.Domain
             string fullAddress = $"{Address}, {Zip}";
             return fullAddress;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Address { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int Zip { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public List<Review> reviews { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [DisplayName("Average Rating")]
         public decimal avgStars { get; set; }
         /// <summary>

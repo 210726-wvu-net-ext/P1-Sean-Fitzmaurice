@@ -13,24 +13,39 @@ namespace RestaurantReviews.WebApp.Models
     /// </summary>
     public class CreatedCustomer : IValidatableObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MinLength(3)]
         [MaxLength (30)]
         [DisplayName("Username")]
         public string Name { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MinLength(5)]
         [DisplayName("Password")]
         public string Pass { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MinLength(5)]
         [MaxLength(40)]
         [DisplayName("Confirm Password")]
         public string ConfirmPass { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Phone]
         [Required]
         [MaxLength(14)]
         public string Phone { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [EmailAddress]
         [Required]
         [MaxLength(100)]

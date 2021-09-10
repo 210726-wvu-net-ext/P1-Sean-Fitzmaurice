@@ -14,24 +14,41 @@ namespace RestaurantReviews.WebApp.Models
     /// </summary>
     public class CreatedRestaurant : IValidatableObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MinLength(3)]
         [MaxLength(40)]
         public string Name { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [DisplayName("Street Number")]
         public int StreetNumber { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MaxLength(40)]
         [DisplayName("Street")]
         public string StreetName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [MaxLength(40)]
         public string City { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         [DisplayName("State/Province")]
         public string State { get; set;  }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Required]
         public int Zip { get; set; }
 
@@ -78,7 +95,7 @@ namespace RestaurantReviews.WebApp.Models
         /// </summary>
         /// <param name="str">string to be capitalized</param>
         /// <returns>capitalized string</returns>
-        private string Capitalize(string str)
+        private static string Capitalize(string str)
         {
             List<int> foundSpaces = new List<int>();
             string newStr;

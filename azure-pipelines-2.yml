@@ -44,7 +44,7 @@ stages:
         organization: '210726-wvu-net-ext'
         scannerMode: 'MSBuild'
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
-        projectName: '210726-wvu-net-ext'
+        projectName: 'P1-Sean-Fitzmaurice'
         
     - task: VSBuild@1
       inputs:
@@ -62,9 +62,6 @@ stages:
         codeCoverageEnabled: true
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
-    - task: NuGetCommand@2
-      inputs:
-        restoreSolution: '$(solution)'
 
     - task: VisualStudioTestPlatformInstaller@1
       inputs:

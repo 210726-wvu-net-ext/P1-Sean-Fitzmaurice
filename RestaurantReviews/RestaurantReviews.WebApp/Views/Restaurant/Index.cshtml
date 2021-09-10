@@ -19,18 +19,19 @@
 
 
 <table class="table">
+    <caption>Restaurants</caption>
     <thead>
         <tr>
-            <th>
+            <th id="Name">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th id="Address">
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-            <th>
+            <th id="AVG">
                 @Html.DisplayNameFor(model => model.avgStars)
             </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -68,9 +69,10 @@
                 {
                     if (i >= item.reviews.Count) { break; }
                     <td><font size="2">
-                        @item.reviews[i].textReview     |
-                        @item.reviews[i].Stars <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
-                        </font></td>
+                    @item.reviews[i].textReview     |
+                    @item.reviews[i].Stars
+                    </font><img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
+                        </td>
 
                 }
         </tr>

@@ -16,24 +16,24 @@
 </form>
 <p>Showing @Model.Count() matching result(s) </p>
 <table class="table">
+    <caption>Matching Users</caption>
     <thead>
         <tr>
-            <th>
+            <th id="ID">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
-            <th>
+            <th id="Name">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th id="Phone">
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
-            <th>
+            <th id="Email">
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th>
+            <th id="Admin">
                 @Html.DisplayNameFor(model => model.Admin)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>

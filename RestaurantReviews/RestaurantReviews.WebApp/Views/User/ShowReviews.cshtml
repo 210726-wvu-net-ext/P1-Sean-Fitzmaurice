@@ -8,49 +8,51 @@
 <h1>Show Customer's'Reviews</h1>
 
 <table class="table">
+    <caption>Users Reviews</caption>
     <thead>
         <tr>
             @if (ViewData["ShowIds"] != null)
             {
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantId)
-            </th>
+                <th id="ID">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th id="CustomerID">
+                    @Html.DisplayNameFor(model => model.CustomerId)
+                </th>
+                <th id="RestaurantID">
+                    @Html.DisplayNameFor(model => model.RestaurantId)
+                </th>
             }
-            <th>
+            <th id="Stars">
                 @Html.DisplayNameFor(model => model.Stars)
 
             </th>
-            <th>
+            <th id="Review">
                 @Html.DisplayNameFor(model => model.textReview)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @if (ViewData["ShowIds"] != null)
-            {
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (ViewData["ShowIds"] != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RestaurantId)
+                    </td>
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Stars)
+                    <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CustomerId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RestaurantId)
-                </td>
-            }
-        <td>
-            @Html.DisplayFor(modelItem => item.Stars)
-            <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="20" height="20">
-        </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.textReview)
                 </td>
@@ -66,7 +68,7 @@
 
                 </td>
             </tr>
-}
+        }
     </tbody>
 </table>
 <div>

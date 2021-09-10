@@ -17,18 +17,19 @@
     <p>Showing @Model.Count() matching result(s) </p>
 </form>
 <table class="table">
+    <caption>Matching Restaurants</caption>
     <thead>
         <tr>
-            <th>
+            <th id="Name">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th id="Address">
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-            <th>
+            <th id="AVG">
                 @Html.DisplayNameFor(model => model.avgStars)
             </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -61,7 +62,7 @@
         </tr>
         <tr>@for (int i = 0; i<3;i++) {
             if(i >= item.reviews.Count) { break; }
-            <td><font size="2">@item.reviews[i].textReview     @item.reviews[i].Stars <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="12" height="12"></font></td>        
+            <td><font size="2">@item.reviews[i].textReview     @item.reviews[i].Stars</font> <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="12" height="12"></td>        
         }</tr>
 }
     </tbody>

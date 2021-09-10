@@ -62,8 +62,9 @@
         </tr>
         <tr>@for (int i = 0; i<3;i++) {
             if(i >= item.reviews.Count) { break; }
-            <td><font size="2">@item.reviews[i].textReview     @item.reviews[i].Stars</font> <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="12" height="12"></td>        
-        }</tr>
+            <td><p style="font-size:13px">@item.reviews[i].textReview     @item.reviews[i].Stars <img src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star.jpg" width="12" height="12"></p></td>        
+            
+            }</tr>
 }
     </tbody>
 </table>

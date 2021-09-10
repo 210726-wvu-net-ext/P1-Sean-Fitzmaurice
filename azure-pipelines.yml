@@ -52,8 +52,12 @@ steps:
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
-    
 
-    
+- script: dotnet publish
+    --configuration Release
+    --output $(Build.StagingDirectory)
+  displayName: dotnet publish
+  workingDirectory:
+
 
 

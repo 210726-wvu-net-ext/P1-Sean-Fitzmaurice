@@ -63,7 +63,7 @@ steps:
   displayName: sonar prepare
   inputs:
   #SonarCloud value set to Pipeline token name for sonar key
-    SonarCloud: 'SONAR_TOKEN'
+    SonarCloud: SONAR_TOKEN
     organization: '210726-wvu-net-ext'
     scannerMode: 'MSBuild'
     projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'

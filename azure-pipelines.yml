@@ -67,16 +67,17 @@ stages:
       inputs:
         packageFeedSelector: 'nugetOrg'
         versionSelector: 'latestPreRelease'
-
+        
+    
     - script: dotnet test --configuration Release
       displayName: dotnet test
-      workingDirectory: 'RestaurantReviews'
+      workingDirectory: $(solution)
       
     - script: dotnet publish
         --configuration Release
         --output $(Build.StagingDirectory)
       displayName: dotnet publish
-      workingDirectory: 'RestaurantReviews'
+      workingDirectory: $(solution)
 
 
 

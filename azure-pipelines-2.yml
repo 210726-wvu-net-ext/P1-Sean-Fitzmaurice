@@ -53,23 +53,8 @@ stages:
         projectName: 'P1-Sean-Fitzmaurice'
         workingDirectory: 'RestaurantReviews'
         
-        
-    - task: VSBuild@1
-      inputs:
-        solution: '$(solution)'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-        workingDirectory: 'RestaurantReviews'
-
-    - task: VSTest@2
-      displayName: 'VsTest - testAssemblies'
-      inputs:
-        testAssemblyVer2: |
-         **\*Test*.dll
-         !**\obj\**
-        codeCoverageEnabled: true
-        platform: '$(BuildPlatform)'
-        configuration: '$(BuildConfiguration)'
+    - script: dotnet build --configuration $(buildConfiguration)
+        displayName: 'dotnet build $(buildConfiguration)'
         workingDirectory: 'RestaurantReviews'
 
     - task: SonarCloudAnalyze@1

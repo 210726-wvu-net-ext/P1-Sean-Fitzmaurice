@@ -57,7 +57,7 @@ stages:
     
     - script: dotnet build --configuration Release
       displayName: dotnet build
-      workingDirectory: $(solution)
+      workingDirectory: 'RestaurantReviews'
       
     - task: SonarCloudAnalyze@1
       displayName: sonar analyze

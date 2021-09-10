@@ -38,10 +38,7 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
 
-    - task: VisualStudioTestPlatformInstaller@1
-      inputs:
-        packageFeedSelector: 'nugetOrg'
-        versionSelector: 'latestPreRelease'
+
         
     - task: SonarCloudPrepare@1
       displayName: sonar prepare
@@ -52,11 +49,15 @@ stages:
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
         projectName: 'P1-Sean-Fitzmaurice'
         
-        
-    - task: DotNetCoreCLI@2
+    - task: UseDotNet@2
+      displayName: Dotnet SDK 5
       inputs:
-        command: 'build'
-        projects: '''RestaurantReviews/RestaurantReviews.sln'''
+        packageType: 'sdk'
+        version: '5.x'
+    
+    - script: dotnet build --configuration Release
+      displayName: dotnet build
+      workingDirectory: $(solution)
       
     - task: SonarCloudAnalyze@1
       displayName: sonar analyze

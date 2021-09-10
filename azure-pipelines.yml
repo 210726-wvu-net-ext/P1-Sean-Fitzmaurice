@@ -28,8 +28,8 @@ steps:
     SonarCloud: 'SONAR_TOKEN'
     organization: '210726-wvu-net-ext'
     scannerMode: 'MSBuild'
-    projectKey: '37a4da14016b723b21036d321db297c0139f07a5'
-    projectName: '210726-wvu-net-ext/P1-Sean-Fitzmaurice
+    projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
+    projectName: '210726-wvu-net-ext/P1-Sean-Fitzmaurice'
     
 - task: VSBuild@1
   inputs:

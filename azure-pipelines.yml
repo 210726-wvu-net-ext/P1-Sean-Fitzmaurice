@@ -23,14 +23,6 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
     
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'secrets.SONAR_TOKEN'
-    organization: '210726-wvu-net-ext'
-    scannerMode: 'MSBuild'
-    projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
-    projectName: '210726-wvu-net-ext/P1-Sean-Fitzmaurice'
-    
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -49,6 +41,28 @@ steps:
     restoreSolution: 'Revature-Project1/*.sln'
     feedsToUse: 'select'
 
+    - task: SonarCloudPrepare@1
+      displayName: sonar prepare
+      inputs:
+        SonarCloud: 'SONAR_TOKEN'
+        organization: '210726-wvu-net-ext'
+        scannerMode: 'MSBuild'
+        projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
+        extraProperties: |
+          sonar.exclusions=**/lib/**/*
+          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
+    - script: dotnet build --configuration Release
+      displayName: dotnet build
+      workingDirectory: 
+#xPlat because MS code coverage tool not good. included in xunit. Make sure to check output file type opencover in this case is all thats needed
+    - script: dotnet test
+        --configuration Release
+        --collect:"XPlat Code Coverage"
+        --results-directory $(Agent.TempDirectory)
+        --
+        DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      displayName: dotnet test
+      workingDirectory: 'RestaurantReviews'
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'

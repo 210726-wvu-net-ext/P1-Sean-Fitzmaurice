@@ -27,7 +27,7 @@ stages:
       vmImage: 'windows-latest'
 
     variables:
-      solution: '**/*.sln'
+      solution: 'RestaurantReviews/RestaurantReviews.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
 
@@ -51,6 +51,7 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
         projectName: 'P1-Sean-Fitzmaurice'
+        workingDirectory: $(solution)
         
         
     - task: VSBuild@1
@@ -58,7 +59,7 @@ stages:
         solution: '$(solution)'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-        workingDirectory: 'RestaurantReviews'
+        workingDirectory: $(solution)
 
     - task: VSTest@2
       displayName: 'VsTest - testAssemblies'
@@ -82,4 +83,4 @@ stages:
         --configuration Release
         --output $(Build.StagingDirectory)
       displayName: dotnet publish
-      workingDirectory: 'RestaurantReviews'
+      workingDirectory: $(solution)

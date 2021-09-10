@@ -27,7 +27,7 @@ stages:
       vmImage: 'windows-latest'
 
     variables:
-      solution: 'RestaurantReviews/RestaurantReviews.sln'
+      solution: 'RestaurantReviews'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
 

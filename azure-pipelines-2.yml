@@ -38,10 +38,13 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
 
-
-        
+    - task: VisualStudioTestPlatformInstaller@1
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
+      
     - task: SonarCloudPrepare@1
-      displayName: sonar prepare
+      displayName: Sonar Prepare
       inputs:
         SonarCloud: 'SONAR_TOKEN'
         organization: '210726-wvu-net-ext'
@@ -60,12 +63,10 @@ stages:
       workingDirectory: 'Project'
       
     - task: SonarCloudAnalyze@1
-      displayName: sonar analyze
+      displayName: Sonar Analyze
 
     - task: SonarCloudPublish@1
-      displayName: sonar publish gate
-      inputs:
-        pollingTimeoutSec: '300'
+      displayName: Sonar Public
 
     - script: dotnet publish
         --configuration Release

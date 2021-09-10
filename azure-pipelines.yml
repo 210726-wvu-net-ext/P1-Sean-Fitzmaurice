@@ -50,7 +50,7 @@ steps:
     versionSelector: 'latestPreRelease'
     
 - task: SonarCloudPrepare@1
-  displayName: sonar prepare
+  displayName: 'sonar prepare'
   inputs:
     SonarCloud: 'SONAR_TOKEN'
     organization: '210726-wvu-net-ext'

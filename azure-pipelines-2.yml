@@ -27,21 +27,26 @@ stages:
       vmImage: 'windows-latest'
 
     variables:
-      solution: 'RestaurantReviews/RestaurantReviews.sln'
+      solution: 'Project/RestaurantReviews.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
 
     steps:
     - task: NuGetToolInstaller@1
-
+      inputs:
+        versionSpec: 
     - task: NuGetCommand@2
       inputs:
+        command: 'restore'
         restoreSolution: '$(solution)'
-
-
-        
+        feedsToUse: 'select'
+    - task: VisualStudioTestPlatformInstaller@1
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
+      
     - task: SonarCloudPrepare@1
-      displayName: sonar prepare
+      displayName: Sonar Prepare
       inputs:
         SonarCloud: 'SONAR_TOKEN'
         organization: '210726-wvu-net-ext'
@@ -57,18 +62,16 @@ stages:
     
     - script: dotnet build --configuration Release
       displayName: dotnet build
-      workingDirectory: 'RestaurantReviews'
+      workingDirectory: 'Project'
       
     - task: SonarCloudAnalyze@1
-      displayName: sonar analyze
+      displayName: Sonar Analyze
 
     - task: SonarCloudPublish@1
-      displayName: sonar publish gate
-      inputs:
-        pollingTimeoutSec: '300'
+      displayName: Sonar Public
 
     - script: dotnet publish
         --configuration Release
         --output $(Build.StagingDirectory)
       displayName: dotnet publish
-      workingDirectory: 'RestaurantReviews'
+      workingDirectory: 'Project'

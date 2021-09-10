@@ -7,72 +7,87 @@ trigger:
   branches:
     include:
      - main
+  paths:
+    include:
+    - P1-Sean-Fitzmaurice
+   
+pr:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - P1-Sean-Fitzmaurice
 
-pool:
-  vmImage: 'windows-latest'
+stages:
+- stage: build
+  jobs:
+  - job: build
+    pool:
+      vmImage: 'windows-latest'
 
-variables:
-  solution: '**/RestaurantReviews/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+    variables:
+      solution: '**/RestaurantReviews/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+    steps:
+    - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-    
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
 
-- task: VSTest@2
-  displayName: 'VsTest - testAssemblies'
-  inputs:
-    testAssemblyVer2: |
-     **\*Test*.dll
-     !**\obj\**
-    codeCoverageEnabled: true
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: 'Revature-Project1/*.sln'
-    feedsToUse: 'select'
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-  workingDirectory: 'RestaurantReviews'
-- task: VisualStudioTestPlatformInstaller@1
-  inputs:
-    packageFeedSelector: 'nugetOrg'
-    versionSelector: 'latestPreRelease'
+    - task: VSTest@2
+      displayName: 'VsTest - testAssemblies'
+      inputs:
+        testAssemblyVer2: |
+         **\*Test*.dll
+         !**\obj\**
+        codeCoverageEnabled: true
+        platform: '$(BuildPlatform)'
+        configuration: '$(BuildConfiguration)'
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: 'Revature-Project1/*.sln'
+        feedsToUse: 'select'
 
-- script: dotnet publish
-    --configuration Release
-    --output $(Build.StagingDirectory)
-  displayName: dotnet publish
-  workingDirectory: 'RestaurantReviews'
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: 'dotnet build $(buildConfiguration)'
+      workingDirectory: 'RestaurantReviews'
+    - task: VisualStudioTestPlatformInstaller@1
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
 
-- task: SonarCloudPrepare@1
-  displayName: sonar prepare
-  inputs:
-  #SonarCloud value set to Pipeline token name for sonar key
-    SonarCloud: 'SONAR_TOKEN'
-    organization: '210726-wvu-net-ext'
-    scannerMode: 'MSBuild'
-    projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
-    extraProperties: |
-      sonar.exclusions=**/lib/**/*
-      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
-- script: dotnet build --configuration Release
-  displayName: dotnet build
-  workingDirectory:
+    - script: dotnet publish
+        --configuration Release
+        --output $(Build.StagingDirectory)
+      displayName: dotnet publish
+      workingDirectory: 'RestaurantReviews'
+
+    - task: SonarCloudPrepare@1
+      displayName: sonar prepare
+      inputs:
+      #SonarCloud value set to Pipeline token name for sonar key
+        SonarCloud: 'SONAR_TOKEN'
+        organization: '210726-wvu-net-ext'
+        scannerMode: 'MSBuild'
+        projectKey: '210726-wvu-net-ext_P1-Sean-Fitzmaurice'
+        extraProperties: |
+          sonar.exclusions=**/lib/**/*
+          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
+    - script: dotnet build --configuration Release
+      displayName: dotnet build
+      workingDirectory:
 
 
 
